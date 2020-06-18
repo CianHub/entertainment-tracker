@@ -10,6 +10,6 @@ const ItemCategorySchema = new mongoose.Schema({
 const ItemCategory = mongoose.model('itemCategories', ItemCategorySchema);
 
 // GET all MongoDB Documents in the MongoDB Collection
-module.exports.getItemCategory = (callback) => {
+module.exports.getItemCategories = (callback) => {
     return ItemCategory.find({}, callback);
 };

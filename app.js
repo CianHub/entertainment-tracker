@@ -9,9 +9,16 @@ require('dotenv').config();
 
 // Import MongoDB models
 const Item = require('./models/item');
+const User = require('./models/user');
+const ItemCategory = require('./models/item-category');
+const entry = require('./models/entry');
+
 
 // Import GraphQL schemas
 const schema = require('./graphql/schema')
+
+// Import common functions
+const common = require('./common/functions');
 
 // Initialise the server
 const app = express();
@@ -43,14 +50,24 @@ mongoose
     .catch((err) => console.log(err));
 
 // Return data from the items collection
-app.get('/api/items', (req, res) => {
-    Item.getItems((error, items) => {
-        if (error) {
-            throw error;
-        }
-        res.json(items);
-    });
-});
+app.get('/api/items', (req, res) =>
+    Item.getItems((error, items) => common.handleAllDocuments(res, error, items))
+);
+
+// Return data from the users collection
+app.get('/api/users', (req, res) =>
+    User.getUsers((error, items) => common.handleAllDocuments(res, error, items))
+);
+
+// Return data from the itemCategories collection
+app.get('/api/item-categories', (req, res) =>
+    ItemCategory.getItemCategories((error, items) => common.handleAllDocuments(res, error, items))
+);
+
+// Return data from the entries collection
+app.get('/api/entries', (req, res) =>
+    entry.getEntries((error, items) => common.handleAllDocuments(res, error, items))
+);
 
 // Start the server
 app.listen(process.env.PORT, () => console.log(`app running on PORT: ${process.env.PORT}`));
