@@ -7,18 +7,11 @@ const cors = require('cors');
 // Enable env variables to be read from .env file
 require('dotenv').config();
 
-// Import MongoDB models
-const Item = require('./models/item');
-const User = require('./models/user');
-const ItemCategory = require('./models/item-category');
-const entry = require('./models/entry');
-
-
 // Import GraphQL schemas
 const schema = require('./graphql/schema')
 
-// Import common functions
-const common = require('./common/functions');
+// Import route functions
+const routes = require('./routes/routes');
 
 // Initialise the server
 const app = express();
@@ -50,24 +43,16 @@ mongoose
     .catch((err) => console.log(err));
 
 // Return data from the items collection
-app.get('/api/items', (req, res) =>
-    Item.getItems((error, items) => common.handleAllDocuments(res, error, items))
-);
+app.get('/api/items', (req, res) => routes.getItems(res));
 
 // Return data from the users collection
-app.get('/api/users', (req, res) =>
-    User.getUsers((error, items) => common.handleAllDocuments(res, error, items))
-);
+app.get('/api/users', (req, res) => routes.getUsers(res));
 
 // Return data from the itemCategories collection
-app.get('/api/item-categories', (req, res) =>
-    ItemCategory.getItemCategories((error, items) => common.handleAllDocuments(res, error, items))
-);
+app.get('/api/item-categories', (req, res) => routes.getItemCategories(res));
 
 // Return data from the entries collection
-app.get('/api/entries', (req, res) =>
-    entry.getEntries((error, items) => common.handleAllDocuments(res, error, items))
-);
+app.get('/api/entries', (req, res) => routes.getEntries(res));
 
 // Start the server
 app.listen(process.env.PORT, () => console.log(`app running on PORT: ${process.env.PORT}`));
