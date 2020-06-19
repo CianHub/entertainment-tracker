@@ -1,5 +1,6 @@
 // Import MongoDB models
 const Entry = require('../models/entry');
+const User = require('../models/user');
 
 // GET all Entry Documents in the Collection
 module.exports.getEntries = (res) => Entry.getEntries()
@@ -12,12 +13,20 @@ module.exports.getEntry = (req, res) => Entry.getEntry(req.params.id)
     .catch((err) => console.log(err))
 
 // POST new Entry Document to the Collection
-module.exports.postEntry = (req, res) => Entry.postEntry(req.body)
-    .then((entry) => {
+// Update with PUT logged in users points 
+module.exports.postEntry = (req, res) => {
+    const data = { ...req.body, user: { "name": req.user.name, "points": req.user.points } }
+    return Entry.postEntry(data)
+        .then((entry) => {
+            const updatedPoints = req.user.points + entry.item.itemCategory.points;
+            User.putUser(req.user._id, { points: updatedPoints })
+                .then(() => console.log(`${req.user.name}'s points have been updated.`))
+                .catch((err) => console.log(err))
 
-        return res.json({ 'success': true, "entry": entry })
-    })
-    .catch((err) => console.log(err))
+            return res.json({ 'success': true, "entry": entry })
+        })
+        .catch((err) => console.log(err))
+}
 
 // PUT existing Entry Document from the Collection
 module.exports.putEntry = (req, res) =>

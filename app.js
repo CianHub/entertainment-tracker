@@ -43,7 +43,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // TODO: Remove once full authentication has been implemented
 const User = require('./models/user')
 app.use((req, res, next) => {
-    User.findById(`${process.env.HARDCODED_USER_ID}`)
+    User.getUser(`${process.env.HARDCODED_USER_ID}`)
         .then((user) => {
             req.user = user;
             next();

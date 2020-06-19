@@ -11,7 +11,7 @@ const EntrySchema = new mongoose.Schema({
         imgLink: { type: String, required: false },
     },
     date: { type: Date, default: Date.now() },
-    year: { type: Number, required: true },
+    year: { type: Number, required: true, default: new Date().getFullYear() },
     user: {
         name: { type: String, required: true },
         points: { type: Number, required: true },
