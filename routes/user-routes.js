@@ -12,4 +12,7 @@ router.get('/api/users/:id', (req, res) => controller.getUser(req, res));
 // Return data from the users collection
 router.get('/api/users', (req, res) => controller.getUsers(res));
 
+// Send new document to the users collection
+router.post('/api/users', (req, res) => controller.postUser(req, res))
+
 module.exports = router;
