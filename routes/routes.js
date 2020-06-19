@@ -1,18 +1,18 @@
-// Import MongoDB models
-const Item = require('../models/item');
-const User = require('../models/user');
-const ItemCategory = require('../models/item-category');
-const entry = require('../models/entry');
+const express = require('express');
 
-// Import common functions
-const common = require('./common/functions');
+// Import routes
+const itemRoutes = require('./item-routes')
+const userRoutes = require('./user-routes')
+const itemCategoriesRoutes = require('./item-category-routes')
+const entriesRoutes = require('./entries-routes')
 
-module.exports.getItems = (res) => Item.getItems((error, items) => common.handleAllDocuments(res, error, items))
+// Create router
+const router = express.Router();
 
-module.exports.getUsers = (res) => User.getUsers((error, items) => common.handleAllDocuments(res, error, items))
+// Merge routes
+router.use('/api/items', itemRoutes)
+router.use('/api/item-categories', itemCategoriesRoutes)
+router.use('/api/entries', entriesRoutes)
+router.use('/api/users', userRoutes)
 
-
-module.exports.getEntries = (res) => entry.getEntries((error, items) => common.handleAllDocuments(res, error, items))
-
-
-module.exports.getItemCategories = (res) => ItemCategory.getItemCategories((error, items) => common.handleAllDocuments(res, error, items))
+modules.export.router = router;

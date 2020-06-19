@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const expressGraphQL = require('express-graphql');
 const cors = require('cors');
+const path = require('path');
 
 // Enable env variables to be read from .env file
 require('dotenv').config();
@@ -10,8 +11,8 @@ require('dotenv').config();
 // Import GraphQL schemas
 const schema = require('./graphql/schema')
 
-// Import route functions
-const routes = require('./routes/routes');
+// Import router
+const router = require('./routes/routes');
 
 // Initialise the server
 const app = express();
@@ -33,6 +34,12 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// Assign directory for static files
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Assign router
+app.use(router);
+
 // Connect to DB
 mongoose
     .connect(
@@ -41,18 +48,6 @@ mongoose
     )
     .then(() => console.log('DB connected'))
     .catch((err) => console.log(err));
-
-// Return data from the items collection
-app.get('/api/items', (req, res) => routes.getItems(res));
-
-// Return data from the users collection
-app.get('/api/users', (req, res) => routes.getUsers(res));
-
-// Return data from the itemCategories collection
-app.get('/api/item-categories', (req, res) => routes.getItemCategories(res));
-
-// Return data from the entries collection
-app.get('/api/entries', (req, res) => routes.getEntries(res));
 
 // Start the server
 app.listen(process.env.PORT, () => console.log(`app running on PORT: ${process.env.PORT}`));
