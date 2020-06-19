@@ -9,6 +9,9 @@ const router = express.Router();
 // Return single document from users collections
 router.get('/api/users/:id', (req, res) => controller.getUser(req, res));
 
+// Deletes single document from users collections
+router.delete('/api/users/:id', (req, res) => controller.deleteUser(req, res));
+
 // Update document from the users collection
 router.put('/api/users/:id', (req, res) => controller.putUser(req, res))
 

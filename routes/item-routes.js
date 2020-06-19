@@ -9,6 +9,9 @@ const router = express.Router();
 // Return single document from items collections
 router.get('/api/items/:id', (req, res) => controller.getItem(req, res));
 
+// Deletes single document from items collections
+router.delete('/api/items/:id', (req, res) => controller.deleteItem(req, res));
+
 // Update document from the items collection
 router.put('/api/items/:id', (req, res) => controller.putItem(req, res))
 

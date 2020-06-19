@@ -9,6 +9,9 @@ const router = express.Router();
 // Return single document from itemCategories collection
 router.get('/api/item-categories/:id', (req, res) => controller.getItemCategory(req, res));
 
+// Deletes single document from itemCategories collections
+router.delete('/api/item-categories/:id', (req, res) => controller.deleteItemCategory(req, res));
+
 // Update document from the itemCategories collection
 router.put('/api/item-categories/:id', (req, res) => controller.putItemCategory(req, res))
 
