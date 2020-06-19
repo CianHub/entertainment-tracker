@@ -6,8 +6,11 @@ const controller = require('../controllers/item-categories-controller')
 // Create router
 const router = express.Router();
 
-// Return single document from itemCategories collections
+// Return single document from itemCategories collection
 router.get('/api/item-categories/:id', (req, res) => controller.getItemCategory(req, res));
+
+// Update document from the itemCategories collection
+router.put('/api/item-categories/:id', (req, res) => controller.putItemCategory(req, res))
 
 /// Return data from the itemCategories collection
 router.get('/api/item-categories', (req, res) => controller.getItemCategories(res));

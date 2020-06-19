@@ -15,3 +15,11 @@ module.exports.getItemCategory = (req, res) => ItemCategory.getItemCategory(req.
 module.exports.postItemCategory = (req, res) => ItemCategory.postItemCategory(req.body)
     .then((itemCategory) => res.json({ 'success': true, "itemCategory": itemCategory }))
     .catch((err) => console.log(err))
+
+// PUT existing ItemCategory Document from the Collection
+module.exports.putItemCategory = (req, res) =>
+    ItemCategory.getItemCategory(req.params.id)
+        .then((itemCategory) => ItemCategory.putItemCategory(req.params.id, { ...itemCategory._doc, ...req.body })
+            .then(() => res.json({ 'success': true, "updatedItemCategory": { ...itemCategory._doc, ...req.body } }))
+            .catch((err) => console.log(err))
+        ).catch((err) => console.log(err))
