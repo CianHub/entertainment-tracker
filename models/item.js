@@ -20,3 +20,15 @@ module.exports.getItems = (callback) => {
 
 // GET single MongoDB Document in the MongoDB Collection
 module.exports.getItem = (id) => Item.findById(id)
+
+// POST new MongoDB Document to the MongoDB Collection
+module.exports.postItem = (data) => Item.create(
+    {
+        name: data.name,
+        itemCategory: {
+            name: data.itemCategory.name,
+            points: data.itemCategory.points
+        },
+        imgLink: data.imgLink
+    })
+
