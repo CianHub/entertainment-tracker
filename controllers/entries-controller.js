@@ -12,6 +12,6 @@ module.exports.getEntry = (req, res) => Entry.getEntry(req.params.id)
     .catch((err) => console.log(err))
 
 // POST new Entry Document to the Collection
-module.exports.postEntry = (req, res) => Entry.postItem(req.body)
+module.exports.postEntry = (req, res) => Entry.postEntry(req.body)
     .then((entry) => res.json({ 'success': true, "entry": entry }))
     .catch((err) => console.log(err))

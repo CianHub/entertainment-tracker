@@ -10,3 +10,8 @@ module.exports.getItemCategories = (res) => ItemCategory.getItemCategories()
 module.exports.getItemCategory = (req, res) => ItemCategory.getItemCategory(req.params.id)
     .then((itemCategory) => res.json(itemCategory))
     .catch((err) => console.log(err))
+
+// POST new ItemCategory Document to the Collection
+module.exports.postItemCategory = (req, res) => ItemCategory.postItemCategory(req.body)
+    .then((itemCategory) => res.json({ 'success': true, "itemCategory": itemCategory }))
+    .catch((err) => console.log(err))

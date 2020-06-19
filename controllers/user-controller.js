@@ -10,3 +10,8 @@ module.exports.getUsers = (res) => User.getUsers()
 module.exports.getUser = (req, res) => User.getUser(req.params.id)
     .then((user) => res.json(user))
     .catch((err) => console.log(err))
+
+// POST new User Document to the Collection
+module.exports.postUser = (req, res) => User.postUser(req.body)
+    .then((user) => res.json({ 'success': true, "user": user }))
+    .catch((err) => console.log(err))
