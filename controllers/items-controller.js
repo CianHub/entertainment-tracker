@@ -15,3 +15,8 @@ module.exports.getItem = (req, res) => Item.getItem(req.params.id)
 module.exports.postItem = (req, res) => Item.postItem(req.body)
     .then((item) => res.json({ 'success': true, "item": item }))
     .catch((err) => console.log(err))
+
+// PUT existing Item Document from the Collection
+module.exports.putItem = (req, res) => Item.putItem(req.params.id, req.body)
+    .then(() => res.json({ 'success': true }))
+    .catch((err) => console.log(err))

@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 // define MongoDB Schema
 const UserSchema = new mongoose.Schema({
     name: { type: String, required: true },
-    points: { type: Number, required: true },
+    points: { type: Number, required: true, default: 0 },
 });
 
 // define MongoDB Model
