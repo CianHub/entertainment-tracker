@@ -12,4 +12,7 @@ router.get('/api/entries/:id', (req, res) => controller.getEntry(req, res));
 // Return data from the entries collection
 router.get('/api/entries', (req, res) => controller.getEntries(res));
 
+// Send new document to the entries collection
+router.post('/api/entries', (req, res) => controller.postEntry(req, res))
+
 module.exports = router;

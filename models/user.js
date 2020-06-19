@@ -10,9 +10,7 @@ const UserSchema = new mongoose.Schema({
 const User = mongoose.model('users', UserSchema);
 
 // GET all MongoDB Documents in the MongoDB Collection
-module.exports.getUsers = (callback) => {
-    return User.find({}, callback);
-};
+module.exports.getUsers = () => User.find({});
 
 // GET single MongoDB Document in the MongoDB Collection
 module.exports.getUser = (id) => User.findById(id)

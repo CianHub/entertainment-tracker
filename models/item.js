@@ -14,8 +14,8 @@ const ItemSchema = new mongoose.Schema({
 const Item = mongoose.model('items', ItemSchema);
 
 // GET all MongoDB Documents in the MongoDB Collection
-module.exports.getItems = (callback) => {
-    return Item.find({}, callback);
+module.exports.getItems = () => {
+    return Item.find({});
 };
 
 // GET single MongoDB Document in the MongoDB Collection
