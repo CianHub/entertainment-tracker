@@ -23,3 +23,8 @@ module.exports.putUser = (req, res) =>
             .then(() => res.json({ 'success': true, "updatedUser": { ...user._doc, ...req.body } }))
             .catch((err) => console.log(err))
         ).catch((err) => console.log(err))
+
+// DELETE single User Document from the Collection
+module.exports.deleteUser = (req, res) => User.deleteUser(req.params.id)
+    .then(() => res.json({ "success": true }))
+    .catch((err) => console.log(err))

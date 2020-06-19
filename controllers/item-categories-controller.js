@@ -23,3 +23,8 @@ module.exports.putItemCategory = (req, res) =>
             .then(() => res.json({ 'success': true, "updatedItemCategory": { ...itemCategory._doc, ...req.body } }))
             .catch((err) => console.log(err))
         ).catch((err) => console.log(err))
+
+// DELETE single ItemCategory Document from the Collection
+module.exports.deleteItemCategory = (req, res) => ItemCategory.deleteItemCategory(req.params.id)
+    .then(() => res.json({ "success": true }))
+    .catch((err) => console.log(err))

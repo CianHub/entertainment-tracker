@@ -35,3 +35,8 @@ module.exports.putEntry = (req, res) =>
             .then(() => res.json({ 'success': true, "updatedEntry": { ...entry._doc, ...req.body } }))
             .catch((err) => console.log(err))
         ).catch((err) => console.log(err))
+
+// DELETE single Entry Document from the Collection
+module.exports.deleteEntry = (req, res) => Entry.deleteEntry(req.params.id)
+    .then(() => res.json({ "success": true }))
+    .catch((err) => console.log(err))

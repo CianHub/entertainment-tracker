@@ -23,3 +23,8 @@ module.exports.putItem = (req, res) =>
             .then(() => res.json({ 'success': true, "updatedItem": { ...item._doc, ...req.body } }))
             .catch((err) => console.log(err))
         ).catch((err) => console.log(err))
+
+// DELETE single Item Document from the Collection
+module.exports.deleteItem = (req, res) => Item.deleteItem(req.params.id)
+    .then(() => res.json({ "success": true }))
+    .catch((err) => console.log(err))
