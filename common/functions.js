@@ -1,7 +1,13 @@
 module.exports.handleAllDocuments = (res, error, items) => {
     if (error) {
-        console.log(error);
-        res.sendStatus(500);
+        throw error
     }
     res.json(items);
+};
+
+module.exports.handleSingleDocument = (res, error, item) => {
+    if (error) {
+        throw error
+    }
+    res.send(item);
 };

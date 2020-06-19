@@ -17,3 +17,6 @@ const Item = mongoose.model('items', ItemSchema);
 module.exports.getItems = (callback) => {
     return Item.find({}, callback);
 };
+
+// GET single MongoDB Document in the MongoDB Collection
+module.exports.getItem = (id) => Item.findById(id)

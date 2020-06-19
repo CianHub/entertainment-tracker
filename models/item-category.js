@@ -13,3 +13,6 @@ const ItemCategory = mongoose.model('itemCategories', ItemCategorySchema);
 module.exports.getItemCategories = (callback) => {
     return ItemCategory.find({}, callback);
 };
+
+// GET single MongoDB Document in the MongoDB Collection
+module.exports.getItemCategory = (id) => ItemCategory.findById(id)

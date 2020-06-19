@@ -13,3 +13,6 @@ const User = mongoose.model('users', UserSchema);
 module.exports.getUsers = (callback) => {
     return User.find({}, callback);
 };
+
+// GET single MongoDB Document in the MongoDB Collection
+module.exports.getUser = (id) => User.findById(id)

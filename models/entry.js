@@ -25,3 +25,6 @@ const Entry = mongoose.model('entries', EntrySchema);
 module.exports.getEntries = (callback) => {
     return Entry.find({}, callback);
 };
+
+// GET single MongoDB Document in the MongoDB Collection
+module.exports.getEntry = (id) => Entry.findById(id)
