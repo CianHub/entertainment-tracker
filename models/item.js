@@ -22,16 +22,7 @@ module.exports.getItems = () => {
 module.exports.getItem = (id) => Item.findById(id)
 
 // PUT single MongoDB Document from the MongoDB Collection
-module.exports.putItem = (id, data) => Item.updateOne({ _id: id }, {
-    name: data.name,
-    itemCategory: {
-        name: data.itemCategory.name,
-        points: data.itemCategory.points
-    },
-    imgLink: data.imgLink
-})
-
-
+module.exports.putItem = (id, data) => Item.updateOne({ _id: id }, data)
 
 // POST new MongoDB Document to the MongoDB Collection
 module.exports.postItem = (data) => Item.create(

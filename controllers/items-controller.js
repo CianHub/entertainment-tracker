@@ -19,8 +19,7 @@ module.exports.postItem = (req, res) => Item.postItem(req.body)
 // PUT existing Item Document from the Collection
 module.exports.putItem = (req, res) =>
     Item.getItem(req.params.id)
-        // Update fields where new data has been provided
         .then((item) => Item.putItem(req.params.id, { ...item._doc, ...req.body })
-            .then(() => res.json({ 'success': true }))
+            .then(() => res.json({ 'success': true, "updatedItem": { ...item._doc, ...req.body } }))
             .catch((err) => console.log(err))
         ).catch((err) => console.log(err))
