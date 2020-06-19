@@ -42,6 +42,6 @@ module.exports.postEntry = (data) => Entry.create(
         year: data.year,
         user: {
             name: data.user.name,
-            points: data.user.name,
+            points: data.user.points,
         }
     })
