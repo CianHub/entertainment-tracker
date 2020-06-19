@@ -13,9 +13,9 @@ const EntrySchema = new mongoose.Schema({
     date: { type: Date, default: Date.now() },
     year: { type: Number, required: true, default: new Date().getFullYear() },
     user: {
-        name: { type: String, required: true },
-        points: { type: Number, required: true },
+        userId: { type: String, required: true },
     },
+    rating: { type: Number, required: true }
 });
 
 // define MongoDB Model

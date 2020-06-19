@@ -15,7 +15,7 @@ module.exports.getEntry = (req, res) => Entry.getEntry(req.params.id)
 // POST new Entry Document to the Collection
 // Update with PUT logged in users points 
 module.exports.postEntry = (req, res) => {
-    const data = { ...req.body, user: { "name": req.user.name, "points": req.user.points } }
+    const data = { ...req.body, user: { "userId": req.user._id } }
     return Entry.postEntry(data)
         .then((entry) => {
             const updatedPoints = req.user.points + entry.item.itemCategory.points;
