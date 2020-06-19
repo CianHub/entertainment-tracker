@@ -9,4 +9,4 @@ const router = express.Router();
 // Return data from the entries collection
 router.get('/api/entries', (req, res) => controller.getEntries(res));
 
-module.exports.entriesRouter = router;
+module.exports = router;

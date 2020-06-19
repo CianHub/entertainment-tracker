@@ -11,8 +11,11 @@ require('dotenv').config();
 // Import GraphQL schemas
 const schema = require('./graphql/schema')
 
-// Import router
-const router = require('./routes/routes');
+// Import routes
+const itemRoutes = require('./routes/item-routes')
+const userRoutes = require('./routes/user-routes')
+const itemCategoriesRoutes = require('./routes/item-category-routes')
+const entriesRoutes = require('./routes/entries-routes')
 
 // Initialise the server
 const app = express();
@@ -37,8 +40,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Assign directory for static files
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Assign router
-app.use(router);
+// Assign routes
+app.use(itemRoutes)
+app.use(itemCategoriesRoutes)
+app.use(entriesRoutes)
+app.use(userRoutes)
 
 // Connect to DB
 mongoose
