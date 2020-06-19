@@ -32,3 +32,6 @@ module.exports.postEntry = (data) => Entry.create(data)
 
 // PUT single MongoDB Document from the MongoDB Collection
 module.exports.putEntry = (id, data) => Entry.updateOne({ _id: id }, data)
+
+// DELETE single MongoDB Document in the MongoDB Collection
+module.exports.deleteEntry = (id) => Entry.deleteOne({ _id: id })

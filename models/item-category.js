@@ -20,3 +20,6 @@ module.exports.postItemCategory = (data) => ItemCategory.create(data)
 
 // PUT single MongoDB Document from the MongoDB Collection
 module.exports.putItemCategory = (id, data) => ItemCategory.updateOne({ _id: id }, data)
+
+// DELETE single MongoDB Document in the MongoDB Collection
+module.exports.deleteItemCategory = (id) => ItemCategory.deleteOne({ _id: id })

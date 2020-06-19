@@ -27,3 +27,5 @@ module.exports.putItem = (id, data) => Item.updateOne({ _id: id }, data)
 // POST new MongoDB Document to the MongoDB Collection
 module.exports.postItem = (data) => Item.create(data)
 
+// DELETE single MongoDB Document in the MongoDB Collection
+module.exports.deleteItem = (id) => Item.deleteOne({ _id: id })

@@ -20,3 +20,6 @@ module.exports.postUser = (data) => User.create(data)
 
 // PUT single MongoDB Document from the MongoDB Collection
 module.exports.putUser = (id, data) => User.updateOne({ _id: id }, data)
+
+// DELETE single MongoDB Document in the MongoDB Collection
+module.exports.deleteUser = (id) => User.deleteOne({ _id: id })
