@@ -9,6 +9,9 @@ const router = express.Router();
 // Return single document from users collections
 router.get('/api/users/:id', (req, res) => controller.getUser(req, res));
 
+// Update document from the users collection
+router.put('/api/users/:id', (req, res) => controller.putUser(req, res))
+
 // Return data from the users collection
 router.get('/api/users', (req, res) => controller.getUsers(res));
 

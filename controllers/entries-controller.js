@@ -15,3 +15,11 @@ module.exports.getEntry = (req, res) => Entry.getEntry(req.params.id)
 module.exports.postEntry = (req, res) => Entry.postEntry(req.body)
     .then((entry) => res.json({ 'success': true, "entry": entry }))
     .catch((err) => console.log(err))
+
+// PUT existing Entry Document from the Collection
+module.exports.putEntry = (req, res) =>
+    Entry.getEntry(req.params.id)
+        .then((entry) => Entry.putEntry(req.params.id, { ...entry._doc, ...req.body })
+            .then(() => res.json({ 'success': true, "updatedEntry": { ...entry._doc, ...req.body } }))
+            .catch((err) => console.log(err))
+        ).catch((err) => console.log(err))
