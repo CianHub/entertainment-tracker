@@ -40,6 +40,17 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Assign directory for static files
 app.use(express.static(path.join(__dirname, 'public')));
 
+// TODO: Remove once full authentication has been implemented
+const User = require('./models/user')
+app.use((req, res, next) => {
+    User.findById(`${process.env.HARDCODED_USER_ID}`)
+        .then((user) => {
+            req.user = user;
+            next();
+        })
+        .catch((err) => console.log(err));
+});
+
 // Assign routes
 app.use(itemRoutes)
 app.use(itemCategoriesRoutes)
