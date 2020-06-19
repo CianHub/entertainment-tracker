@@ -28,20 +28,4 @@ module.exports.getEntries = () => Entry.find({})
 module.exports.getEntry = (id) => Entry.findById(id)
 
 // POST new MongoDB Document to the MongoDB Collection
-module.exports.postEntry = (data) => Entry.create(
-    {
-        item: {
-            name: data.item.name,
-            itemCategory: {
-                name: data.item.itemCategory.name,
-                points: data.item.itemCategory.points
-            },
-            imgLink: data.item.imgLink
-        },
-        date: Date.now(),
-        year: data.year,
-        user: {
-            name: data.user.name,
-            points: data.user.points,
-        }
-    })
+module.exports.postEntry = (data) => Entry.create(data)

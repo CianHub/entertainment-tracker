@@ -16,8 +16,4 @@ module.exports.getItemCategories = () => ItemCategory.find({});
 module.exports.getItemCategory = (id) => ItemCategory.findById(id)
 
 // POST new MongoDB Document to the MongoDB Collection
-module.exports.postItemCategory = (data) => ItemCategory.create(
-    {
-        name: data.name,
-        points: data.points
-    })
+module.exports.postItemCategory = (data) => ItemCategory.create(data)

@@ -16,9 +16,4 @@ module.exports.getUsers = () => User.find({});
 module.exports.getUser = (id) => User.findById(id)
 
 // POST new MongoDB Document to the MongoDB Collection
-module.exports.postUser = (data) => User.create(
-    {
-        name: data.name,
-        points: data.points,
-
-    })
+module.exports.postUser = (data) => User.create(data)
