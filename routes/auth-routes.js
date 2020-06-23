@@ -9,8 +9,9 @@ const router = express.Router();
 router.get('/google', passport.authenticate('google', { scope: ['profile'] }))
 
 // Google authentication callback
-router.get('/google/callback', passport.authenticate('google', { failureRedirect: '/' }), (req, res) => {
-    res.json({ 'success': true, 'message': "Authetication Successful" })
-})
+router.get('/google/callback', passport.authenticate('google', { failureRedirect: '/' }),
+    (req, res) => {
+        res.json({ 'success': true, 'message': "Authetication Successful" })
+    })
 
 module.exports = router;

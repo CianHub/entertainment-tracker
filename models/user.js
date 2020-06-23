@@ -22,6 +22,9 @@ module.exports.getUsers = () => User.find({});
 // GET single MongoDB Document in the MongoDB Collection
 module.exports.getUser = (id) => User.findById(id)
 
+// GET single MongoDB Document in the MongoDB Collection by googleId
+module.exports.getUserByGoogleId = (id) => User.findOne({ googleId: id })
+
 // POST new MongoDB Document to the MongoDB Collection
 module.exports.postUser = (data) => User.create(data)
 
