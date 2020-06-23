@@ -1,12 +1,13 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const expressGraphQL = require('express-graphql');
 const cors = require('cors');
 const path = require('path');
 const passport = require('passport');
 const session = require('express-session');
-
+const MongoStore = require('connect-mongo')(session)
 
 // Enable env variables to be read from .env file
 require('dotenv').config();
@@ -43,12 +44,14 @@ app.use(cors());
 // Config app to parse incoming requests in diff formats
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 // Config app to allow sessions
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
+    store: new MongoStore({ mongooseConnection: mongoose.connection })
 }))
 
 // Setup authentication with Passport.js and store login sessiosn
@@ -57,17 +60,6 @@ app.use(passport.session())
 
 // Assign directory for static files
 app.use(express.static(path.join(__dirname, 'public')));
-
-// TODO: Remove once full authentication has been implemented
-const User = require('./models/user')
-app.use((req, res, next) => {
-    User.getUser(`${process.env.HARDCODED_USER_ID}`)
-        .then((user) => {
-            req.user = user;
-            next();
-        })
-        .catch((err) => console.log(err));
-});
 
 // Assign routes
 app.use(itemRoutes)

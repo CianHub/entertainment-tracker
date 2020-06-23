@@ -1,5 +1,8 @@
 const express = require('express');
 
+// Import route guard middleware
+const routeGuard = require('../auth/auth-middleware')
+
 // Import controller
 const controller = require('../controllers/items-controller')
 
@@ -7,18 +10,18 @@ const controller = require('../controllers/items-controller')
 const router = express.Router();
 
 // Return single document from items collections
-router.get('/api/items/:id', (req, res) => controller.getItem(req, res));
+router.get('/api/items/:id', routeGuard.ensureUserIsAuthenticated, (req, res) => controller.getItem(req, res));
 
 // Deletes single document from items collections
-router.delete('/api/items/:id', (req, res) => controller.deleteItem(req, res));
+router.delete('/api/items/:id', routeGuard.ensureUserIsAuthenticated, (req, res) => controller.deleteItem(req, res));
 
 // Update document from the items collection
-router.put('/api/items/:id', (req, res) => controller.putItem(req, res))
+router.put('/api/items/:id', routeGuard.ensureUserIsAuthenticated, (req, res) => controller.putItem(req, res))
 
 // Return data from the items collection
-router.get('/api/items', (req, res) => controller.getItems(res));
+router.get('/api/items', routeGuard.ensureUserIsAuthenticated, (req, res) => controller.getItems(res));
 
 // Send new document to the items collection
-router.post('/api/items', (req, res) => controller.postItem(req, res))
+router.post('/api/items', routeGuard.ensureUserIsAuthenticated, (req, res) => controller.postItem(req, res))
 
 module.exports = router;

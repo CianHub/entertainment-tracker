@@ -11,13 +11,13 @@ router.get('/auth/google', ensureUserIsNotAuthenticated, passport.authenticate('
 // Google authentication callback
 router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/auth/google' }),
     (req, res) => {
-        res.json({ 'success': true, 'message': "Authetication Successful" })
+        return res.json({ 'success': true, 'message': "Successfully logged in" })
     })
 
 // Logout User
 router.get('/auth/logout', ensureUserIsAuthenticated, (req, res) => {
     req.logout()
-    return res.json({ 'success': true, 'message': "logged out" })
+    return res.json({ 'success': true, 'message': "Successfully logged out" })
 })
 
 module.exports = router;

@@ -1,5 +1,4 @@
 const GoogleStrategy = require('passport-google-oauth20').Strategy
-const mongoose = require('mongoose');
 const User = require('../models/user');
 
 module.exports = (passport) => {
@@ -30,10 +29,12 @@ module.exports = (passport) => {
             }
         })
     )
-    passport.serializeUser((user, done) => done(null, user.id))
+    passport.serializeUser((user, done) => {
+        return done(null, user._id)
+    })
 
     passport.deserializeUser(async (id, done) => {
-        let user = await User.getUserByGoogleId(id);
+        let user = await User.getUser(id);
         return done(null, user)
     })
 
