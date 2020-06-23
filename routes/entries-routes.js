@@ -1,7 +1,7 @@
 const express = require('express');
 
 // Import route guard middleware
-const routeGuard = require('../auth/auth-middleware')
+const routeGuard = require('../middleware/auth-middleware')
 
 // Import controller
 const controller = require('../controllers/entries-controller')

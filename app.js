@@ -13,7 +13,7 @@ const MongoStore = require('connect-mongo')(session)
 require('dotenv').config();
 
 // Passport config
-require('./auth/passport')(passport)
+require('./auth/google-strategy')(passport)
 
 // Import GraphQL schemas
 const schema = require('./graphql/schema')

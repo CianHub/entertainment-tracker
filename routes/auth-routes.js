@@ -1,6 +1,6 @@
 const express = require('express');
 const passport = require('passport');
-const { ensureUserIsAuthenticated, ensureUserIsNotAuthenticated } = require('../auth/auth-middleware')
+const { ensureUserIsAuthenticated, ensureUserIsNotAuthenticated } = require('../middleware/auth-middleware')
 
 // Create router
 const router = express.Router();
