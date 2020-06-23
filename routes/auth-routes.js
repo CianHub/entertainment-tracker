@@ -6,10 +6,10 @@ const passport = require('passport');
 const router = express.Router();
 
 // Authenticate user with Google
-router.get('/google', passport.authenticate('google', { scope: ['profile'] }))
+router.get('/auth/google', passport.authenticate('google', { scope: ['profile'] }))
 
 // Google authentication callback
-router.get('/google/callback', passport.authenticate('google', { failureRedirect: '/' }),
+router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/auth/google' }),
     (req, res) => {
         res.json({ 'success': true, 'message': "Authetication Successful" })
     })
