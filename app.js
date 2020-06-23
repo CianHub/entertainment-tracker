@@ -14,6 +14,7 @@ require('dotenv').config();
 
 // Passport config
 require('./auth/google-strategy')(passport)
+require('./auth/local-strategy')(passport)
 
 // Import GraphQL schemas
 const schema = require('./graphql/schema')
@@ -54,7 +55,7 @@ app.use(session({
     store: new MongoStore({ mongooseConnection: mongoose.connection })
 }))
 
-// Setup authentication with Passport.js and store login sessiosn
+// Init authentication with Passport.js and store login session
 app.use(passport.initialize())
 app.use(passport.session())
 
