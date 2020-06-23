@@ -22,6 +22,7 @@ const itemRoutes = require('./routes/item-routes')
 const userRoutes = require('./routes/user-routes')
 const itemCategoriesRoutes = require('./routes/item-category-routes')
 const entriesRoutes = require('./routes/entries-routes')
+const authRoutes = require('./routes/auth-routes')
 
 // Initialise the server
 const app = express();
@@ -73,6 +74,7 @@ app.use(itemRoutes)
 app.use(itemCategoriesRoutes)
 app.use(entriesRoutes)
 app.use(userRoutes)
+app.use(authRoutes)
 
 // Connect to DB
 mongoose
