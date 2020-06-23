@@ -2,8 +2,15 @@ const mongoose = require('mongoose');
 
 // define MongoDB Schema
 const UserSchema = new mongoose.Schema({
+    googleId: {
+        type: String, required: true
+    },
     name: { type: String, required: true },
     points: { type: Number, required: true, default: 0 },
+    profilePicture: {
+        type: String, required: false
+    },
+    dateCreated: { type: Date, default: Date.now() }
 });
 
 // define MongoDB Model
