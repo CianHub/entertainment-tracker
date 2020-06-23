@@ -4,9 +4,15 @@ const bodyParser = require('body-parser');
 const expressGraphQL = require('express-graphql');
 const cors = require('cors');
 const path = require('path');
+const passport = require('passport');
+const session = require('express-session');
+
 
 // Enable env variables to be read from .env file
 require('dotenv').config();
+
+// Passport config
+require('./auth/passport')(passport)
 
 // Import GraphQL schemas
 const schema = require('./graphql/schema')
@@ -36,6 +42,17 @@ app.use(cors());
 // Config app to parse incoming requests in diff formats
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// Config app to allow sessions
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+}))
+
+// Setup authentication with Passport.js and store login sessiosn
+app.use(passport.initialize())
+app.use(passport.session())
 
 // Assign directory for static files
 app.use(express.static(path.join(__dirname, 'public')));
