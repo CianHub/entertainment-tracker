@@ -14,4 +14,10 @@ router.get('/auth/google/callback', passport.authenticate('google', { failureRed
         res.json({ 'success': true, 'message': "Authetication Successful" })
     })
 
+// Logout User
+router.get('/auth/logout', (req, res) => {
+    req.logout()
+    return res.json({ 'success': true, 'message': "logged out" })
+})
+
 module.exports = router;
