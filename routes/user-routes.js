@@ -22,6 +22,6 @@ router.put('/api/users/:id', routeGuard.ensureUserIsAuthenticated, (req, res) =>
 router.get('/api/users', routeGuard.ensureUserIsAuthenticated, (req, res) => controller.getUsers(res));
 
 // Send new document to the users collection
-router.post('/api/users', routeGuard.ensureUserIsAuthenticated, (req, res) => controller.postUser(req, res))
+router.post('/api/users', (req, res) => controller.postUser(req, res))
 
 module.exports = router;
