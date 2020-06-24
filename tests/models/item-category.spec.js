@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const ItemCategory = require('../models/item-category');
+const ItemCategory = require('../../models/item-category');
 const itemCategoryData = {
     name: "testItemCategory",
     points: 3,
@@ -30,9 +30,9 @@ describe('ItemCategory Model Test', () => {
                 fakeField: "fakeField",
                 points: 3,
             });
-        const savedUserWithInvalidField = await itemCategoryWithInvalidField.save();
-        expect(savedUserWithInvalidField._id).toBeDefined();
-        expect(savedUserWithInvalidField.fakeField).toBeUndefined();
+        const savedItemCategoryWithInvalidField = await itemCategoryWithInvalidField.save();
+        expect(savedItemCategoryWithInvalidField._id).toBeDefined();
+        expect(savedItemCategoryWithInvalidField.fakeField).toBeUndefined();
     });
 
     it('create user without required field should failed', async () => {

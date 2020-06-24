@@ -38,9 +38,9 @@ describe('Item Model Test', () => {
                 },
                 imgLink: null
             });
-        const savedUserWithInvalidField = await itemWithInvalidField.save();
-        expect(savedUserWithInvalidField._id).toBeDefined();
-        expect(savedUserWithInvalidField.fakeField).toBeUndefined();
+        const savedItemWithInvalidField = await itemWithInvalidField.save();
+        expect(savedItemWithInvalidField._id).toBeDefined();
+        expect(savedItemWithInvalidField.fakeField).toBeUndefined();
     });
 
     it('create user without required field should failed', async () => {
