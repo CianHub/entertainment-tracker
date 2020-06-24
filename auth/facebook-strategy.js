@@ -18,11 +18,11 @@ module.exports = (passport) => {
             }
 
             try {
-                let user = await User.getUserByFacebookId(profile.id);
+                let user = await User.findOne({ facebookId: profile.id });
                 if (user) {
                     done(null, user)
                 } else {
-                    user = await User.postUser(newUser)
+                    user = await User.create(newUser)
                     done(null, user)
                 }
             }
