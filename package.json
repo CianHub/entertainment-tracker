@@ -34,7 +34,7 @@
   "scripts": {
     "start": "nodemon server.js",
     "test": "jest --verbose --detectOpenHandles --coverage",
-    "sonar": "node sonarqube-config.js"
+    "sonar": "sonar-scanner"
   },
   "author": "",
   "license": "ISC",
