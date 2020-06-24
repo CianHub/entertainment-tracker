@@ -22,6 +22,22 @@ router.get('/auth/google/login-failure', ensureUserIsNotAuthenticated,
         return res.json({ 'success': false, 'message': "Login failed" })
     })
 
+// Authenticate user with Facebook
+router.get('/auth/facebook', ensureUserIsNotAuthenticated, passport.authenticate('facebook'))
+
+// Facebook authentication callback
+router.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/auth/facebook/login-failure' }),
+    (req, res) => {
+        return res.json({ 'success': true, 'message': "Successfully logged in", "username": req.user.name })
+    })
+
+// Facebook user authentication failure
+router.get('/auth/facebook/login-failure', ensureUserIsNotAuthenticated,
+    (req, res) => {
+        res.setStatus(401)
+        return res.json({ 'success': false, 'message': "Login failed" })
+    })
+
 // Authenticate a local user
 router.post('/auth/local', ensureUserIsNotAuthenticated,
     passport.authenticate('local', { failureRedirect: '/auth/local/login-failure' }),

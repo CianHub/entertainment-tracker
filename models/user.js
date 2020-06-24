@@ -31,6 +31,9 @@ module.exports.getUser = (id) => User.findById(id)
 // GET single MongoDB Document in the MongoDB Collection by googleId
 module.exports.getUserByGoogleId = (id) => User.findOne({ googleId: id })
 
+// GET single MongoDB Document in the MongoDB Collection by facebookId
+module.exports.getUserByFacebookId = (id) => User.findOne({ facebookId: id })
+
 // GET single MongoDB Document in the MongoDB Collection by name and accountType
 module.exports.getLocalUser = (name) => User.findOne({ name: name, accountType: 'Local' })
 
