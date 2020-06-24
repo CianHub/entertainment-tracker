@@ -1,6 +1,7 @@
 const FacebookStrategy = require('passport-facebook').Strategy
 const User = require('../models/user');
 
+// Config facebook strategy
 module.exports = (passport) => {
     passport.use('facebook', new FacebookStrategy({
         clientID: process.env.FACEBOOK_APP_ID,
