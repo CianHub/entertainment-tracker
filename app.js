@@ -15,6 +15,8 @@ require('dotenv').config();
 // Passport config
 require('./auth/google-strategy')(passport)
 require('./auth/local-strategy')(passport)
+require('./auth/facebook-strategy')(passport)
+require('./auth/twitter-strategy')(passport)
 
 // Import GraphQL schemas
 const schema = require('./graphql/schema')
