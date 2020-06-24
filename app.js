@@ -81,3 +81,5 @@ mongoose
 
 // Start the server
 app.listen(process.env.PORT, () => console.log(`app running on PORT: ${process.env.PORT}`));
+
+module.exports = app;

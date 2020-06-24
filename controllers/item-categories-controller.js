@@ -2,7 +2,7 @@
 const ItemCategory = require('../models/item-category');
 
 // GET all ItemCategory Documents in the Collection
-module.exports.getItemCategories = (res) => ItemCategory.find({});
+module.exports.getItemCategories = (res) => ItemCategory.find({})
     .then((itemCategories) => res.json({ 'success': true, "itemCategories": itemCategories }))
     .catch((err) => console.log(err))
 

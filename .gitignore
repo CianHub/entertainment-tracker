@@ -2,3 +2,5 @@
 .env
 .vscode
 .eslintrc.js
+/coverage
+/.scannerwork

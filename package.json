@@ -28,11 +28,13 @@
     "@shelf/jest-mongodb": "^1.1.5",
     "eslint": "^7.2.0",
     "eslint-config-google": "^0.14.0",
-    "jest": "^26.1.0"
+    "jest": "^26.1.0",
+    "sonarqube-scanner": "^2.6.0"
   },
   "scripts": {
     "start": "nodemon server.js",
-    "test": "jest --verbose --detectOpenHandles"
+    "test": "jest --verbose --detectOpenHandles --coverage",
+    "sonar": "node sonarqube-config.js"
   },
   "author": "",
   "license": "ISC",
