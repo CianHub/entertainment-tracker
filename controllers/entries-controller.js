@@ -37,6 +37,6 @@ module.exports.putEntry = (req, res) =>
         ).catch((err) => console.log(err))
 
 // DELETE single Entry Document from the Collection
-module.exports.deleteEntry = (req, res) => Entry.delete({ _id: req.params.id })
+module.exports.deleteEntry = (req, res) => Entry.deleteOne({ _id: req.params.id })
     .then(() => res.json({ "success": true }))
     .catch((err) => console.log(err))
