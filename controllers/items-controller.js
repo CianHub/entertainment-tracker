@@ -2,29 +2,72 @@
 const Item = require('../models/item');
 
 // GET all Item Documents in the Collection
-module.exports.getItems = (res) => Item.find({})
-    .then((items) => res.json({ 'success': true, "items": items }))
-    .catch((err) => console.log(err))
+module.exports.getItems = async (res) => {
+    try {
+        const items = await Item.find({});
+        res.status(200)
+        res.json({ 'success': true, "items": items });
+    } catch (err) {
+        res.status(400);
+        res.json({ 'success': false, "message": 'Request failed' });
+    }
+
+}
 
 // GET single Item Document from the Collection
-module.exports.getItem = (req, res) => Item.findById(req.params.id)
-    .then((item) => res.json(item))
-    .catch((err) => console.log(err))
+module.exports.getItem = async (req, res) => {
+    try {
+        const item = await Item.findById(req.params.id);
+        res.status(200)
+        res.json(item)
+    } catch (err) {
+        res.status(400);
+        res.json({ 'success': false, "message": 'Request failed' });
+    }
+}
 
 // POST new Item Document to the Collection
-module.exports.postItem = (req, res) => Item.create(req.body)
-    .then((item) => res.json({ 'success': true, "item": item }))
-    .catch((err) => console.log(err))
+module.exports.postItem = async (req, res) => {
+    try {
+        const item = await Item.create(req.body)
+        res.status(200)
+        res.json({ 'success': true, "item": item })
+    }
+    catch (err) {
+        res.status(400);
+        res.json({ 'success': false, "message": 'Request failed' });
+    }
+}
 
 // PUT existing Item Document from the Collection
-module.exports.putItem = (req, res) =>
-    Item.findById(req.params.id)
-        .then((item) => Item.updateOne({ _id: req.params.id }, { ...item._doc, ...req.body })
-            .then(() => res.json({ 'success': true, "updatedItem": { ...item._doc, ...req.body } }))
-            .catch((err) => console.log(err))
-        ).catch((err) => console.log(err))
+module.exports.putItem = async (req, res) => {
+    try {
+        const item = await Item.findById(req.params.id)
+        try {
+            const updatedItem = await Item.updateOne({ _id: req.params.id }, { ...item._doc, ...req.body })
+            console.log(updatedItem)
+
+            res.json({ 'success': true, "updatedItem": updatedItem })
+        } catch (err) {
+            res.status(400);
+            res.json({ 'success': false, "message": 'Request failed' });
+        }
+    }
+    catch (err) {
+        res.status(400);
+        res.json({ 'success': false, "message": 'Request failed' });
+    }
+}
 
 // DELETE single Item Document from the Collection
-module.exports.deleteItem = (req, res) => Item.deleteOne({ _id: req.params.id })
-    .then(() => res.json({ "success": true }))
-    .catch((err) => console.log(err))
+module.exports.deleteItem = async (req, res) => {
+    try {
+        await Item.deleteOne({ _id: req.params.id })
+        res.status(200)
+        res.json({ "success": true })
+    }
+    catch (err) {
+        res.status(400);
+        res.json({ 'success': false, "message": 'Request failed' });
+    }
+}
