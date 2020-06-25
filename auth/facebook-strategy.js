@@ -39,5 +39,4 @@ module.exports = (passport) => {
         let user = await User.getUser(id);
         return done(null, user)
     })
-
 }

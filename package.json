@@ -33,7 +33,7 @@
   },
   "scripts": {
     "start": "nodemon server.js",
-    "test": "jest --verbose --detectOpenHandles --coverage",
+    "test": "jest -forceExit --verbose --detectOpenHandles --coverage",
     "sonar": "sonar-scanner"
   },
   "author": "",
@@ -41,7 +41,9 @@
   "jest": {
     "testEnvironment": "node",
     "coveragePathIgnorePatterns": [
-      "/node_modules/"
+      "/node_modules/",
+      "/tests/",
+      "/auth/"
     ]
   }
 }
