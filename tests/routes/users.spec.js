@@ -37,7 +37,7 @@ describe('Test user routes', () => {
     it('should call getUsers and return 403 if not authenticated', async done => {
         const response = await request.get('/api/users')
 
-        expect(res.status).toBe(403)
+        expect(response.status).toBe(403)
         expect(routeGuardSpy).toHaveBeenCalled();
         done()
     })
@@ -56,7 +56,7 @@ describe('Test user routes', () => {
     it('should call getUser and return 403 if not authenticated', async done => {
         const response = await request.get('/api/users/1')
 
-        expect(res.status).toBe(403)
+        expect(response.status).toBe(403)
         expect(routeGuardSpy).toHaveBeenCalled();
         done()
     })
@@ -74,7 +74,7 @@ describe('Test user routes', () => {
     it('should call putUser and return 403 if not authenticated', async done => {
         const response = await request.put('/api/users/5eebb5b0834526f4e3e35b52')
 
-        expect(res.status).toBe(403)
+        expect(response.status).toBe(403)
         expect(routeGuardSpy).toHaveBeenCalled();
         done()
     })
@@ -105,7 +105,7 @@ describe('Test user routes', () => {
     it('should call deleteUser and return 403 if not authenticated', async done => {
         const response = await request.delete('/api/users/5eebb5b0834526f4e3e35b52')
 
-        expect(res.status).toBe(403)
+        expect(response.status).toBe(403)
         expect(routeGuardSpy).toHaveBeenCalled();
         done()
     })

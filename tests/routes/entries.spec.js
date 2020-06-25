@@ -39,7 +39,7 @@ describe('Test entries routes', () => {
     it('should call getEntries and return 403 if not authenticated', async done => {
         const response = await request.get('/api/entries')
 
-        expect(res.status).toBe(403)
+        expect(response.status).toBe(403)
         expect(routeGuardSpy).toHaveBeenCalled();
         done()
     })
@@ -58,7 +58,7 @@ describe('Test entries routes', () => {
     it('should call getEntry and return 403 if not authenticated', async done => {
         const response = await request.get('/api/entries/1')
 
-        expect(res.status).toBe(403)
+        expect(response.status).toBe(403)
         expect(routeGuardSpy).toHaveBeenCalled();
         done()
     })
@@ -82,7 +82,7 @@ describe('Test entries routes', () => {
     it('should call postEntry and return 403 if not authenticated', async done => {
         const response = await request.post('/api/entries')
 
-        expect(res.status).toBe(403)
+        expect(response.status).toBe(403)
         expect(routeGuardSpy).toHaveBeenCalled();
         done()
     })
@@ -90,7 +90,7 @@ describe('Test entries routes', () => {
     it('should call putEntry and return 403 if not authenticated', async done => {
         const response = await request.put('/api/entries/5eebb5b0834526f4e3e35b52')
 
-        expect(res.status).toBe(403)
+        expect(response.status).toBe(403)
         expect(routeGuardSpy).toHaveBeenCalled();
         done()
     })
@@ -121,7 +121,7 @@ describe('Test entries routes', () => {
     it('should call deleteEntry and return 403 if not authenticated', async done => {
         const response = await request.delete('/api/entries/5eebb5b0834526f4e3e35b52')
 
-        expect(res.status).toBe(403)
+        expect(response.status).toBe(403)
         expect(routeGuardSpy).toHaveBeenCalled();
         done()
     })

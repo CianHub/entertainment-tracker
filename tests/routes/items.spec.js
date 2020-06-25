@@ -37,7 +37,7 @@ describe('Test item routes', () => {
     it('should call getItems and return 403 if not authenticated', async done => {
         const response = await request.get('/api/items')
 
-        expect(res.status).toBe(403)
+        expect(response.status).toBe(403)
         expect(routeGuardSpy).toHaveBeenCalled();
         done()
     })
@@ -56,7 +56,7 @@ describe('Test item routes', () => {
     it('should call getItem and return 403 if not authenticated', async done => {
         const response = await request.get('/api/items/1')
 
-        expect(res.status).toBe(403)
+        expect(response.status).toBe(403)
         expect(routeGuardSpy).toHaveBeenCalled();
         done()
     })
@@ -64,7 +64,7 @@ describe('Test item routes', () => {
     it('should call postItem and return 403 if not authenticated', async done => {
         const response = await request.post('/api/items')
 
-        expect(res.status).toBe(403)
+        expect(response.status).toBe(403)
         expect(routeGuardSpy).toHaveBeenCalled();
         done()
     })
@@ -83,7 +83,7 @@ describe('Test item routes', () => {
     it('should call putItem and return 403 if not authenticated', async done => {
         const response = await request.put('/api/items/5eebb5b0834526f4e3e35b52')
 
-        expect(res.status).toBe(403)
+        expect(response.status).toBe(403)
         expect(routeGuardSpy).toHaveBeenCalled();
         done()
     })
@@ -114,7 +114,7 @@ describe('Test item routes', () => {
     it('should call deleteItem and return 403 if not authenticated', async done => {
         const response = await request.delete('/api/items/5eebb5b0834526f4e3e35b52')
 
-        expect(res.status).toBe(403)
+        expect(response.status).toBe(403)
         expect(routeGuardSpy).toHaveBeenCalled();
         done()
     })
