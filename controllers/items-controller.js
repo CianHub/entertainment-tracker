@@ -45,8 +45,6 @@ module.exports.putItem = async (req, res) => {
         const item = await Item.findById(req.params.id)
         try {
             const updatedItem = await Item.updateOne({ _id: req.params.id }, { ...item._doc, ...req.body })
-            console.log(updatedItem)
-
             res.json({ 'success': true, "updatedItem": updatedItem })
         } catch (err) {
             res.status(400);

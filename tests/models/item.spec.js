@@ -1,13 +1,6 @@
 const mongoose = require('mongoose');
 const Item = require('../../models/item');
-const itemData = {
-    name: "testItem",
-    itemCategory: {
-        name: "testItemCategory",
-        points: 3,
-    },
-    imgLink: null
-}
+const { mockItem } = require('../mocks')
 
 describe('Item Model Test', () => {
     beforeAll(async () => {
@@ -20,11 +13,11 @@ describe('Item Model Test', () => {
     });
 
     it('create & save item successfully', async () => {
-        const validItem = new Item(itemData);
+        const validItem = new Item(mockItem);
         const savedItem = await validItem.save();
 
         expect(savedItem._id).toBeDefined();
-        expect(savedItem.name).toBe(itemData.name);
+        expect(savedItem.name).toBe(mockItem.name);
     });
 
     it('insert item successfully, but the field does not defined in schema should be undefined', async () => {

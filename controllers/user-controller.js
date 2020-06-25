@@ -14,17 +14,30 @@ const hash = (password) => crypto
     .digest("base64");
 
 // GET all Users Documents in the Collection
-module.exports.getUsers = (res) => User.find({})
-    .then((users) => res.json({ 'success': true, "users": users }))
-    .catch((err) => console.log(err))
+module.exports.getUsers = async (res) => {
+    try {
+        const users = await User.find({})
+        res.json({ 'success': true, "users": users })
+    } catch (err) {
+        res.status(400);
+        res.json({ 'success': false, "message": 'Request failed' });
+    }
+}
 
 // GET single User Document from the Collection
-module.exports.getUser = (req, res) => User.findById(req.params.id)
-    .then((user) => res.json(user))
-    .catch((err) => console.log(err))
+module.exports.getUser = async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id)
+        res.status(200)
+        res.json({ 'success': true, "user": user })
+    } catch (err) {
+        res.status(400);
+        res.json({ 'success': false, "message": 'Request failed' });
+    }
+}
 
 // POST new User Document to the Collection
-module.exports.postUser = (req, res) => {
+module.exports.postUser = async (req, res) => {
     // If creating new local user
     // Generates a salt
     // Creates a salted hash of the password
@@ -36,23 +49,46 @@ module.exports.postUser = (req, res) => {
         data.password = hash(`${salt}${data.password}`);
         data.accountType = 'Local'
     }
-    return User.create(data)
-        .then((user) => res.json({ 'success': true, "user": user }))
-        .catch((err) => console.log(err))
+    try {
+        const user = await User.create(data)
+        res.status(200)
+        res.json({ 'success': true, "user": user })
+
+    } catch (err) {
+        res.status(400);
+        res.json({ 'success': false, "message": 'Request failed' });
+    }
+
 }
 
 // PUT existing User Document from the Collection
-module.exports.putUser = (req, res) =>
-    User.findById(req.params.id)
-        .then((user) => User.updateOne({ _id: req.params.id }, { ...user._doc, ...req.body })
-            .then(() => res.json({ 'success': true, "updatedUser": { ...user._doc, ...req.body } }))
-            .catch((err) => console.log(err))
-        ).catch((err) => console.log(err))
+module.exports.putUser = async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id)
+        try {
+            await User.updateOne({ _id: req.params.id }, { ...user._doc, ...req.body })
+            res.json({ 'success': true, "updatedUser": { ...user._doc, ...req.body } })
+        } catch (err) {
+            res.status(400);
+            res.json({ 'success': false, "message": 'Request failed' });
+        }
+    } catch (err) {
+        res.status(400);
+        res.json({ 'success': false, "message": 'Request failed' });
+    }
+}
 
 // DELETE single User Document from the Collection
-module.exports.deleteUser = (req, res) => User.deleteOne({ _id: req.params.id })
-    .then(() => res.json({ "success": true }))
-    .catch((err) => console.log(err))
+module.exports.deleteUser = async (req, res) => {
+    try {
+        await User.deleteOne({ _id: req.params.id })
+        res.status(200)
+        res.json({ "success": true })
+    } catch (err) {
+        res.status(400);
+        res.json({ 'success': false, "message": 'Request failed' });
+    }
+}
 
 // Check validity of local user password
 // Gets the salt generated when the password was saved

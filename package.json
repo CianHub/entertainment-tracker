@@ -33,7 +33,7 @@
   },
   "scripts": {
     "start": "nodemon server.js",
-    "test": "jest --verbose --detectOpenHandles --coverage",
+    "test": "jest --watch --verbose --detectOpenHandles --coverage",
     "sonar": "sonar-scanner"
   },
   "author": "",
