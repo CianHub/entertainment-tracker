@@ -8,7 +8,7 @@ const User = require('../models/user');
 // Creates a hash instance with SHA256 algorithim
 // Updates the hash content with the password string
 // finalizes the created hash with base64 encoding
-const hash = (password) => crypto
+module.exports.hash = (password) => crypto
     .createHash("sha256")
     .update(password)
     .digest("base64");
@@ -46,7 +46,7 @@ module.exports.postUser = async (req, res) => {
     if ('password' in data) {
         const salt = csprng(160, 36);
         data.salt = salt;
-        data.password = hash(`${salt}${data.password}`);
+        data.password = this.hash(`${salt}${data.password}`);
         data.accountType = 'Local'
     }
     try {
@@ -93,4 +93,4 @@ module.exports.deleteUser = async (req, res) => {
 // Check validity of local user password
 // Gets the salt generated when the password was saved
 // Compares the hashed salt of the entered password with the saved password
-module.exports.checkLocalUserPasswordIsValid = (salt, enteredPassword, existingPassword) => hash(`${salt}${enteredPassword}`) === existingPassword
+module.exports.checkLocalUserPasswordIsValid = (salt, enteredPassword, existingPassword) => this.hash(`${salt}${enteredPassword}`) === existingPassword

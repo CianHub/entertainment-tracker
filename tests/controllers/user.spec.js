@@ -183,4 +183,15 @@ describe("Test users controller", () => {
             { 'success': false, "message": 'Request failed' }
         );
     })
+
+    test('hash should create a hash of string', () => {
+        expect(controller.hash('test')).toBe('n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=')
+        expect(controller.hash('')).toBe('47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=')
+    })
+
+    test('hash should create a salt hash of a string and compare it to another string', () => {
+        expect(controller.checkLocalUserPasswordIsValid('', 'test', 'n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=')).toBeTruthy()
+
+        expect(controller.checkLocalUserPasswordIsValid('test', 'test', 'n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=')).toBeFalsy()
+    })
 });
