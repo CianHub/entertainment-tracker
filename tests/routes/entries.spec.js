@@ -1,17 +1,19 @@
 const supertest = require('supertest')
 
-let routeGuardSpy, getEntrySpy, postEntrySpy, putEntrySpy, deleteEntrySpy, request, app;
-const { mockEntry } = require('../mocks')
+let routeGuardSpy, getEntrySpy, postEntrySpy, putEntrySpy, deleteEntrySpy, putUserSpy, request, app;
+const { mockEntry, mockUser, mockEntry2 } = require('../mocks')
 
-describe('Test item-category routes', () => {
+describe('Test entries routes', () => {
     beforeEach(() => {
         const routeGuard = require('../../middleware/auth-middleware')
         routeGuardSpy = jest.spyOn(routeGuard, 'ensureUserIsAuthenticated')
         const Entry = require('../../models/entry')
+        const User = require('../../models/user')
         getEntrySpy = jest.spyOn(Entry, 'findById')
         postEntrySpy = jest.spyOn(Entry, 'create')
         putEntrySpy = jest.spyOn(Entry, 'updateOne')
         deleteEntrySpy = jest.spyOn(Entry, 'deleteOne')
+        putUserSpy = jest.spyOn(User, 'updateOne')
 
         Entry.find = jest.fn().mockReturnValue([])
 
@@ -62,8 +64,13 @@ describe('Test item-category routes', () => {
     })
 
     it('should call postEntry and return 200 if authenticated', async done => {
-        routeGuardSpy.mockImplementation((req, res, next) => next());
-        postEntrySpy.mockImplementation(() => { return { 'success': true, "entry": mockEntry } })
+        routeGuardSpy.mockImplementation((req, res, next) => {
+            req.user = { _id: '5ef224801cbe6cd5c5f7b4bb', points: 0 }
+            req.body = { ...mockEntry, itemCategory: { name: "test", points: 0 } }
+            return next()
+        });
+        postEntrySpy.mockImplementation(() => { return mockEntry })
+        putUserSpy.mockImplementation(() => { return { 'success': true, "entry": mockUser } })
 
         const res = await request.post('/api/entries')
 

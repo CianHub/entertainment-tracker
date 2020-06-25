@@ -63,7 +63,8 @@ describe('Test item-category routes', () => {
 
     it('should call postItemCategory and return 200 if authenticated', async done => {
         routeGuardSpy.mockImplementation((req, res, next) => next());
-        postItemCategorySpy.mockImplementation(() => { return { 'success': true, "itemCategory": mockItemCategory } })
+        postItemCategorySpy.mockImplementation(() => mockItemCategory
+        )
 
         const res = await request.post('/api/item-categories')
 

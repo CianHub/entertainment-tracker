@@ -3,7 +3,7 @@ const supertest = require('supertest')
 let routeGuardSpy, getUserSpy, postUserSpy, putUserSpy, deleteUserSpy, request, app;
 const { mockUser } = require('../mocks')
 
-describe('Test item-category routes', () => {
+describe('Test user routes', () => {
     beforeEach(() => {
         const routeGuard = require('../../middleware/auth-middleware')
         routeGuardSpy = jest.spyOn(routeGuard, 'ensureUserIsAuthenticated')

@@ -33,7 +33,7 @@
   },
   "scripts": {
     "start": "nodemon server.js",
-    "test": "jest  --coverage",
+    "test": "jest  --coverage --runInBand --detectOpenHandles --forceExit",
     "sonar": "sonar-scanner"
   },
   "author": "Cian O'Gralaigh",
