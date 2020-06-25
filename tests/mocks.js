@@ -56,3 +56,27 @@ module.exports.mockEntry2 = {
     },
     rating: 8
 }
+
+module.exports.mockUser = {
+    googleId: null,
+    facebookId: null,
+    password: "testPass",
+    name: "testName",
+    points: 0,
+    profilePicture: null,
+    salt: "123",
+    accountType: "Local",
+    dateCreated: Date.now()
+}
+
+module.exports.mockUser2 = {
+    googleId: null,
+    facebookId: null,
+    password: "testPass",
+    name: "testName2",
+    points: 0,
+    profilePicture: null,
+    salt: "123",
+    accountType: "Local",
+    dateCreated: Date.now()
+}

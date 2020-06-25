@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
-const { mockRequest, mockResponse } = require('../mocks')
+const { mockRequest, mockResponse, mockUser, mockUser2 } = require('../mocks')
 
-const controller = require('../../controllers/items-controller');
-const Item = require('../../models/item');
+const controller = require('../../controllers/user-controller');
+const User = require('../../models/user');
 
-describe("Test items controller", () => {
+describe("Test users controller", () => {
     beforeAll(async () => {
         await mongoose.connect(global.__MONGO_URI__, { useNewUrlParser: true, useCreateIndex: true }, (err) => {
             if (err) {
@@ -14,26 +14,26 @@ describe("Test items controller", () => {
         });
     });
 
-    test('getItems should return 200 and return correct value', async () => {
-        Item.find = jest.fn().mockReturnValue([])
+    test('getUsers should return 200 and return correct value', async () => {
+        User.find = jest.fn().mockReturnValue([])
 
         const res = mockResponse();
 
-        await controller.getItems(res);
+        await controller.getUsers(res);
 
         expect(res.json).toHaveBeenCalledTimes(1)
         expect(res.json.mock.calls.length).toBe(1);
-        expect(res.json).toHaveBeenCalledWith({ 'success': true, "items": [] });
+        expect(res.json).toHaveBeenCalledWith({ 'success': true, "users": [] });
     });
 
-    test('getItems should return 400 and return correct value', async () => {
-        Item.find = jest.fn().mockImplementation(() => {
+    test('getUsers should return 400 and return correct value', async () => {
+        User.find = jest.fn().mockImplementation(() => {
             throw new Error('error');
         })
 
         const res = mockResponse();
 
-        await controller.getItems(res)
+        await controller.getUsers(res)
 
         expect(res.json).toHaveBeenCalledTimes(1)
         expect(res.json.mock.calls.length).toBe(1);
@@ -42,27 +42,27 @@ describe("Test items controller", () => {
         );
     })
 
-    test('getItem should return 200 and return correct value', async () => {
-        Item.findOne = jest.fn().mockReturnValue({ 'name': 'test' })
+    test('getUser should return 200 and return correct value', async () => {
+        User.findOne = jest.fn().mockReturnValue(mockUser)
         const req = mockRequest();
         const res = mockResponse();
 
-        await controller.getItem(req, res);
+        await controller.getUser(req, res);
 
         expect(res.json).toHaveBeenCalledTimes(1)
         expect(res.json.mock.calls.length).toBe(1);
-        expect(res.json).toHaveBeenCalledWith({ 'name': 'test' });
+        expect(res.json).toHaveBeenCalledWith({ 'success': true, 'user': mockUser });
     });
 
-    test('getItem should return 400 and return correct value', async () => {
-        Item.findOne = jest.fn().mockImplementation(() => {
+    test('getUser should return 400 and return correct value', async () => {
+        User.findOne = jest.fn().mockImplementation(() => {
             throw new Error('error');
         })
 
         const req = mockRequest();
         const res = mockResponse();
 
-        await controller.getItem(req, res);
+        await controller.getUser(req, res);
 
         expect(res.json).toHaveBeenCalledTimes(1)
         expect(res.json.mock.calls.length).toBe(1);
@@ -71,28 +71,30 @@ describe("Test items controller", () => {
         );
     })
 
-    test('postItem should return 200 and return correct value', async () => {
-        Item.create = jest.fn().mockReturnValue({ 'name': 'test' })
+    test('postUser should return 200 and return correct value', async () => {
+        User.create = jest.fn().mockReturnValue(mockUser)
 
         const req = mockRequest();
         const res = mockResponse();
 
-        await controller.postItem(req, res);
+        req.body = jest.fn().mockReturnValue({ password: "test" })
+
+        await controller.postUser(req, res);
 
         expect(res.json).toHaveBeenCalledTimes(1)
         expect(res.json.mock.calls.length).toBe(1);
-        expect(res.json).toHaveBeenCalledWith({ 'success': true, item: { 'name': 'test' } });
+        expect(res.json).toHaveBeenCalledWith({ 'success': true, user: mockUser });
     });
 
-    test('postItem should return 400 and return correct value', async () => {
-        Item.create = jest.fn().mockImplementation(() => {
+    test('postUser should return 400 and return correct value', async () => {
+        User.create = jest.fn().mockImplementation(() => {
             throw new Error('error');
         })
 
         const req = mockRequest();
         const res = mockResponse();
 
-        await controller.postItem(req, res);
+        await controller.postUser(req, res);
 
         expect(res.json).toHaveBeenCalledTimes(1)
         expect(res.json.mock.calls.length).toBe(1);
@@ -101,31 +103,31 @@ describe("Test items controller", () => {
         );
     })
 
-    test('putItem should return 200 and return correct value', async () => {
-        Item.findById = jest.fn().mockReturnValue({ 'name': 'test' })
-        Item.updateOne = jest.fn().mockReturnValue({ 'name': 'test2' })
+    test('putUser should return 200 and return correct value', async () => {
+        User.findById = jest.fn().mockReturnValue(mockUser)
+        User.updateOne = jest.fn().mockReturnValue(mockUser2)
 
         const req = mockRequest();
         const res = mockResponse();
 
-        await controller.putItem(req, res);
+        await controller.putUser(req, res);
 
         expect(res.json).toHaveBeenCalledTimes(1)
         expect(res.json.mock.calls.length).toBe(1);
-        expect(res.json).toHaveBeenCalledWith({ 'success': true, 'updatedItem': { 'name': 'test2' } });
+        expect(res.json).toHaveBeenCalledWith({ 'success': true, 'updatedUser': mockUser2 });
     });
 
     test('putItem should return 400 and return correct value on update failure', async () => {
-        Item.findById = jest.fn().mockReturnValue({ 'name': 'test' })
+        User.findById = jest.fn().mockReturnValue(mockUser)
 
-        Item.updateOne = jest.fn().mockImplementation(() => {
+        User.updateOne = jest.fn().mockImplementation(() => {
             throw new Error('error');
         })
 
         const req = mockRequest();
         const res = mockResponse();
 
-        await controller.putItem(req, res);
+        await controller.putUser(req, res);
 
         expect(res.json).toHaveBeenCalledTimes(1)
         expect(res.json.mock.calls.length).toBe(1);
@@ -134,16 +136,16 @@ describe("Test items controller", () => {
         );
     })
 
-    test('putItem should return 400 and return correct value on get failure', async () => {
+    test('putUser should return 400 and return correct value on get failure', async () => {
 
-        Item.findById = jest.fn().mockImplementation(() => {
+        User.findById = jest.fn().mockImplementation(() => {
             throw new Error('error');
         })
 
         const req = mockRequest();
         const res = mockResponse();
 
-        await controller.putItem(req, res);
+        await controller.putUser(req, res);
 
         expect(res.json).toHaveBeenCalledTimes(1)
         expect(res.json.mock.calls.length).toBe(1);
@@ -152,28 +154,28 @@ describe("Test items controller", () => {
         );
     })
 
-    test('deleteItem should return 200 and return correct value', async () => {
-        Item.deleteOne = jest.fn().mockReturnValue()
+    test('deleteUser should return 200 and return correct value', async () => {
+        User.deleteOne = jest.fn().mockReturnValue()
 
         const req = mockRequest();
         const res = mockResponse();
 
-        await controller.deleteItem(req, res);
+        await controller.deleteUser(req, res);
 
         expect(res.json).toHaveBeenCalledTimes(1)
         expect(res.json.mock.calls.length).toBe(1);
         expect(res.json).toHaveBeenCalledWith({ 'success': true });
     });
 
-    test('deleteItem should return 400 and return correct value', async () => {
-        Item.deleteOne = jest.fn().mockImplementation(() => {
+    test('deleteUser should return 400 and return correct value', async () => {
+        User.deleteOne = jest.fn().mockImplementation(() => {
             throw new Error('error');
         })
 
         const req = mockRequest();
         const res = mockResponse();
 
-        await controller.deleteItem(req, res);
+        await controller.deleteUser(req, res);
 
         expect(res.json).toHaveBeenCalledTimes(1)
         expect(res.json.mock.calls.length).toBe(1);

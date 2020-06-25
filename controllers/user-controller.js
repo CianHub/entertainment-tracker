@@ -66,8 +66,8 @@ module.exports.putUser = async (req, res) => {
     try {
         const user = await User.findById(req.params.id)
         try {
-            await User.updateOne({ _id: req.params.id }, { ...user._doc, ...req.body })
-            res.json({ 'success': true, "updatedUser": { ...user._doc, ...req.body } })
+            const updatedUser = await User.updateOne({ _id: req.params.id }, { ...user._doc, ...req.body })
+            res.json({ 'success': true, "updatedUser": updatedUser })
         } catch (err) {
             res.status(400);
             res.json({ 'success': false, "message": 'Request failed' });
