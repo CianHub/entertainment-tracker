@@ -80,3 +80,13 @@ module.exports.mockUser2 = {
     accountType: "Local",
     dateCreated: Date.now()
 }
+
+module.exports.mockItemCategory = {
+    name: "testItemCategory",
+    points: 3,
+}
+
+module.exports.mockItemCategory2 = {
+    name: "testItemCategory2",
+    points: 3,
+}
