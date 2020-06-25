@@ -43,7 +43,7 @@
     "coveragePathIgnorePatterns": [
       "/node_modules/",
       "/tests/",
-      "/auth/"
+      "auth/"
     ]
   }
 }
