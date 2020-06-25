@@ -1,8 +1,7 @@
 const { ensureUserIsAuthenticated, ensureUserIsNotAuthenticated } = require('../../middleware/auth-middleware');
 
 describe("Test auth middleware", () => {
-
-    test('Ensure user is authenticated should call next if user is logged in', async () => {
+    it('Ensure user is authenticated should call next if user is logged in', async () => {
         const req = {}
         req.isAuthenticated = jest.fn().mockReturnValue(true)
 
@@ -16,7 +15,7 @@ describe("Test auth middleware", () => {
         expect(next).toHaveBeenCalled();
     })
 
-    test('Ensure user is authenticated should redirect the user if they are not logged in', async () => {
+    it('Ensure user is authenticated should redirect the user if they are not logged in', async () => {
         const req = {}
         req.isAuthenticated = jest.fn().mockReturnValue(false)
 
@@ -32,7 +31,7 @@ describe("Test auth middleware", () => {
         expect(res.json).toHaveBeenCalledWith({ success: false, message: "You must be logged in to access this path." });
     })
 
-    test('Ensure user is not authenticated should call next if user is not logged', async () => {
+    it('Ensure user is not authenticated should call next if user is not logged', async () => {
         const req = {}
         req.isAuthenticated = jest.fn().mockReturnValue(true)
 
@@ -48,7 +47,7 @@ describe("Test auth middleware", () => {
         expect(res.json).toHaveBeenCalledWith({ success: false, message: "You are already logged in." });
     })
 
-    test('Ensure user is not authenticated should redirect the user if they are logged in', async () => {
+    it('Ensure user is not authenticated should redirect the user if they are logged in', async () => {
         const req = {}
         req.isAuthenticated = jest.fn().mockReturnValue(false)
 
