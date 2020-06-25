@@ -84,6 +84,37 @@ describe('Test item routes', () => {
         done()
     })
 
+    it('should call postItem and return 200 if authenticated', async done => {
+        routeGuardSpy.mockImplementation((req, res, next) => next());
+        postItemSpy.mockImplementation(() => { return { 'success': true, "item": mockItem } })
+
+        const res = await request.post('/api/items')
+
+        expect(res.status).toBe(200)
+        expect(routeGuardSpy).toHaveBeenCalled();
+        done()
+    })
+
+    it('should call putItem and return 403 if not authenticated', async done => {
+        const res = await request.put('/api/items/5eebb5b0834526f4e3e35b52')
+
+        expect(res.status).toBe(403)
+        expect(routeGuardSpy).toHaveBeenCalled();
+        done()
+    })
+
+    it('should call putItem and return 200 if authenticated', async done => {
+        routeGuardSpy.mockImplementation((req, res, next) => next());
+        putItemSpy.mockImplementation(() => { return { 'success': true, "updatedItem": mockItem } })
+        getItemSpy.mockImplementation(() => { return { 'success': true, "item": mockItem } })
+
+        const res = await request.put('/api/items/5eebb5b0834526f4e3e35b52')
+
+        expect(res.status).toBe(200)
+        expect(routeGuardSpy).toHaveBeenCalled();
+        done()
+    })
+
     it('should call deleteItem and return 200 if authenticated', async done => {
         routeGuardSpy.mockImplementation((req, res, next) => next());
         deleteItemSpy.mockImplementation(() => { })
