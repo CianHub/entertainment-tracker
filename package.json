@@ -1,5 +1,5 @@
 {
-  "name": "hog",
+  "name": "entertainment-tracker",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
@@ -36,7 +36,7 @@
     "test": "jest -forceExit --verbose --detectOpenHandles --coverage",
     "sonar": "sonar-scanner"
   },
-  "author": "",
+  "author": "Cian O'Gralaigh",
   "license": "ISC",
   "jest": {
     "testEnvironment": "node",
