@@ -19,7 +19,7 @@ module.exports.getItem = async (req, res) => {
     try {
         const item = await Item.findById(req.params.id);
         res.status(200)
-        res.json(item)
+        res.json({ 'success': true, "item": item })
     } catch (err) {
         res.status(400);
         res.json({ 'success': false, "message": 'Request failed' });

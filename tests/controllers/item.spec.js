@@ -51,7 +51,7 @@ describe("Test items controller", () => {
 
         expect(res.json).toHaveBeenCalledTimes(1)
         expect(res.json.mock.calls.length).toBe(1);
-        expect(res.json).toHaveBeenCalledWith({ 'name': 'test' });
+        expect(res.json).toHaveBeenCalledWith({ success: true, item: { 'name': 'test' } });
     });
 
     test('getItem should return 400 and return correct value', async () => {

@@ -70,16 +70,4 @@ app.use(entriesRoutes)
 app.use(userRoutes)
 app.use(authRoutes)
 
-// Connect to DB
-mongoose
-    .connect(
-        `mongodb+srv://admin:${process.env.MONGO_PASSWORD}@cluster0-puzya.mongodb.net/${process.env.MONGO_DBNAME}`,
-        { useUnifiedTopology: true, useNewUrlParser: true }
-    )
-    .then(() => console.log('DB connected'))
-    .catch((err) => console.log(err));
-
-// Start the server
-app.listen(process.env.PORT, () => console.log(`app running on PORT: ${process.env.PORT}`));
-
 module.exports = app;
