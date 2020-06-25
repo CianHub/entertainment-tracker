@@ -27,15 +27,15 @@ describe('Test item-category routes', () => {
     it('should call getItemCategories and return 200 if authenticated', async done => {
         routeGuardSpy.mockImplementation((req, res, next) => next())
 
-        const res = await request.get('/api/item-categories')
+        const response = await request.get('/api/item-categories')
 
-        expect(res.status).toBe(200)
+        expect(response.status).toBe(200)
         expect(routeGuardSpy).toHaveBeenCalled();
         done()
     })
 
     it('should call getItemCategories and return 403 if not authenticated', async done => {
-        const res = await request.get('/api/item-categories')
+        const response = await request.get('/api/item-categories')
 
         expect(res.status).toBe(403)
         expect(routeGuardSpy).toHaveBeenCalled();
@@ -46,15 +46,15 @@ describe('Test item-category routes', () => {
         routeGuardSpy.mockImplementation((req, res, next) => next());
         getItemCategorySpy.mockImplementation(() => { return { 'success': true, "itemCategory": mockItemCategory } })
 
-        const res = await request.get('/api/item-categories/5eebb5b0834526f4e3e35b52')
+        const response = await request.get('/api/item-categories/5eebb5b0834526f4e3e35b52')
 
-        expect(res.status).toBe(200)
+        expect(response.status).toBe(200)
         expect(routeGuardSpy).toHaveBeenCalled();
         done()
     })
 
     it('should call getItemCategory and return 403 if not authenticated', async done => {
-        const res = await request.get('/api/item-categories/1')
+        const response = await request.get('/api/item-categories/1')
 
         expect(res.status).toBe(403)
         expect(routeGuardSpy).toHaveBeenCalled();
@@ -66,15 +66,15 @@ describe('Test item-category routes', () => {
         postItemCategorySpy.mockImplementation(() => mockItemCategory
         )
 
-        const res = await request.post('/api/item-categories')
+        const response = await request.post('/api/item-categories')
 
-        expect(res.status).toBe(200)
+        expect(response.status).toBe(200)
         expect(routeGuardSpy).toHaveBeenCalled();
         done()
     })
 
     it('should call postItemCategory and return 403 if not authenticated', async done => {
-        const res = await request.post('/api/item-categories')
+        const response = await request.post('/api/item-categories')
 
         expect(res.status).toBe(403)
         expect(routeGuardSpy).toHaveBeenCalled();
@@ -82,7 +82,7 @@ describe('Test item-category routes', () => {
     })
 
     it('should call putItemCategory and return 403 if not authenticated', async done => {
-        const res = await request.put('/api/item-categories/5eebb5b0834526f4e3e35b52')
+        const response = await request.put('/api/item-categories/5eebb5b0834526f4e3e35b52')
 
         expect(res.status).toBe(403)
         expect(routeGuardSpy).toHaveBeenCalled();
@@ -94,9 +94,9 @@ describe('Test item-category routes', () => {
         putItemCategorySpy.mockImplementation(() => { return { 'success': true, "updatedItemCategory": mockItemCategory } })
         getItemCategorySpy.mockImplementation(() => { return { 'success': true, "itemCategory": mockItemCategory } })
 
-        const res = await request.put('/api/item-categories/5eebb5b0834526f4e3e35b52')
+        const response = await request.put('/api/item-categories/5eebb5b0834526f4e3e35b52')
 
-        expect(res.status).toBe(200)
+        expect(response.status).toBe(200)
         expect(routeGuardSpy).toHaveBeenCalled();
         done()
     })
@@ -105,15 +105,15 @@ describe('Test item-category routes', () => {
         routeGuardSpy.mockImplementation((req, res, next) => next());
         deleteItemCategorySpy.mockImplementation(() => { })
 
-        const res = await request.delete('/api/item-categories/5eebb5b0834526f4e3e35b52')
+        const response = await request.delete('/api/item-categories/5eebb5b0834526f4e3e35b52')
 
-        expect(res.status).toBe(200)
+        expect(response.status).toBe(200)
         expect(routeGuardSpy).toHaveBeenCalled();
         done()
     })
 
     it('should call deleteItemCategory and return 403 if not authenticated', async done => {
-        const res = await request.delete('/api/item-categories/5eebb5b0834526f4e3e35b52')
+        const response = await request.delete('/api/item-categories/5eebb5b0834526f4e3e35b52')
 
         expect(res.status).toBe(403)
         expect(routeGuardSpy).toHaveBeenCalled();

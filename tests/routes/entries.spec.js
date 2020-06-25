@@ -29,15 +29,15 @@ describe('Test entries routes', () => {
     it('should call getEntries and return 200 if authenticated', async done => {
         routeGuardSpy.mockImplementation((req, res, next) => next())
 
-        const res = await request.get('/api/entries')
+        const response = await request.get('/api/entries')
 
-        expect(res.status).toBe(200)
+        expect(response.status).toBe(200)
         expect(routeGuardSpy).toHaveBeenCalled();
         done()
     })
 
     it('should call getEntries and return 403 if not authenticated', async done => {
-        const res = await request.get('/api/entries')
+        const response = await request.get('/api/entries')
 
         expect(res.status).toBe(403)
         expect(routeGuardSpy).toHaveBeenCalled();
@@ -48,15 +48,15 @@ describe('Test entries routes', () => {
         routeGuardSpy.mockImplementation((req, res, next) => next());
         getEntrySpy.mockImplementation(() => { return { 'success': true, "entry": mockEntry } })
 
-        const res = await request.get('/api/entries/5eebb5b0834526f4e3e35b52')
+        const response = await request.get('/api/entries/5eebb5b0834526f4e3e35b52')
 
-        expect(res.status).toBe(200)
+        expect(response.status).toBe(200)
         expect(routeGuardSpy).toHaveBeenCalled();
         done()
     })
 
     it('should call getEntry and return 403 if not authenticated', async done => {
-        const res = await request.get('/api/entries/1')
+        const response = await request.get('/api/entries/1')
 
         expect(res.status).toBe(403)
         expect(routeGuardSpy).toHaveBeenCalled();
@@ -72,15 +72,15 @@ describe('Test entries routes', () => {
         postEntrySpy.mockImplementation(() => { return mockEntry })
         putUserSpy.mockImplementation(() => { return { 'success': true, "entry": mockUser } })
 
-        const res = await request.post('/api/entries')
+        const response = await request.post('/api/entries')
 
-        expect(res.status).toBe(200)
+        expect(response.status).toBe(200)
         expect(routeGuardSpy).toHaveBeenCalled();
         done()
     })
 
     it('should call postEntry and return 403 if not authenticated', async done => {
-        const res = await request.post('/api/entries')
+        const response = await request.post('/api/entries')
 
         expect(res.status).toBe(403)
         expect(routeGuardSpy).toHaveBeenCalled();
@@ -88,7 +88,7 @@ describe('Test entries routes', () => {
     })
 
     it('should call putEntry and return 403 if not authenticated', async done => {
-        const res = await request.put('/api/entries/5eebb5b0834526f4e3e35b52')
+        const response = await request.put('/api/entries/5eebb5b0834526f4e3e35b52')
 
         expect(res.status).toBe(403)
         expect(routeGuardSpy).toHaveBeenCalled();
@@ -100,9 +100,9 @@ describe('Test entries routes', () => {
         putEntrySpy.mockImplementation(() => { return { 'success': true, "updatedEntry": mockEntry } })
         getEntrySpy.mockImplementation(() => { return { 'success': true, "entry": mockEntry } })
 
-        const res = await request.put('/api/entries/5eebb5b0834526f4e3e35b52')
+        const response = await request.put('/api/entries/5eebb5b0834526f4e3e35b52')
 
-        expect(res.status).toBe(200)
+        expect(response.status).toBe(200)
         expect(routeGuardSpy).toHaveBeenCalled();
         done()
     })
@@ -111,15 +111,15 @@ describe('Test entries routes', () => {
         routeGuardSpy.mockImplementation((req, res, next) => next());
         deleteEntrySpy.mockImplementation(() => { })
 
-        const res = await request.delete('/api/entries/5eebb5b0834526f4e3e35b52')
+        const response = await request.delete('/api/entries/5eebb5b0834526f4e3e35b52')
 
-        expect(res.status).toBe(200)
+        expect(response.status).toBe(200)
         expect(routeGuardSpy).toHaveBeenCalled();
         done()
     })
 
     it('should call deleteEntry and return 403 if not authenticated', async done => {
-        const res = await request.delete('/api/entries/5eebb5b0834526f4e3e35b52')
+        const response = await request.delete('/api/entries/5eebb5b0834526f4e3e35b52')
 
         expect(res.status).toBe(403)
         expect(routeGuardSpy).toHaveBeenCalled();
