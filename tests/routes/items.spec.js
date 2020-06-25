@@ -1,11 +1,7 @@
 const supertest = require('supertest')
 
-let app;
-let routeGuardSpy, getItemSpy, postItemSpy, putItemSpy, deleteItemSpy;
-let request;
-const mockItem = require('../mocks')
-const controller = require('../../controllers/items-controller')
-
+let routeGuardSpy, getItemSpy, postItemSpy, putItemSpy, deleteItemSpy, request, app;
+const { mockItem } = require('../mocks')
 
 describe('Test item routes', () => {
     beforeEach(() => {
@@ -65,17 +61,6 @@ describe('Test item routes', () => {
         done()
     })
 
-    it('should call postItem and return 200 if authenticated', async done => {
-        routeGuardSpy.mockImplementation((req, res, next) => next());
-        postItemSpy.mockImplementation(() => { return { 'success': true, "item": mockItem } })
-
-        const res = await request.post('/api/items')
-
-        expect(res.status).toBe(200)
-        expect(routeGuardSpy).toHaveBeenCalled();
-        done()
-    })
-
     it('should call postItem and return 403 if not authenticated', async done => {
         const res = await request.post('/api/items')
 
@@ -117,7 +102,7 @@ describe('Test item routes', () => {
 
     it('should call deleteItem and return 200 if authenticated', async done => {
         routeGuardSpy.mockImplementation((req, res, next) => next());
-        deleteItemSpy.mockImplementation(() => { })
+        deleteItemSpy.mockImplementation(() => { return { success: true } })
 
         const res = await request.delete('/api/items/5eebb5b0834526f4e3e35b52')
 
