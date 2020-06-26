@@ -51,7 +51,7 @@ router.get('/auth/facebook/login-failure', ensureUserIsNotAuthenticated,
     })
 
 // Authenticate a local user
-router.post('/auth/local', ensureUserIsNotAuthenticated,
+router.post('/auth/local',
     passport.authenticate('local', { failureRedirect: '/auth/local/login-failure' }),
     (req, res) => {
         res.status(200)

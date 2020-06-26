@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken')
 const User = require('../models/user')
 module.exports = {
     ensureUserIsAuthenticated: (req, res, next) => {
-        if (checkToken(req.headers.token)) {
+        if (req.headers.token && checkToken(req.headers.token)) {
             return next();
         } else {
             res.status(403)
@@ -10,7 +10,7 @@ module.exports = {
         }
     },
     ensureUserIsNotAuthenticated: (req, res, next) => {
-        if (checkToken(req.headers.token)) {
+        if (req.headers.token && checkToken(req.headers.token)) {
             res.status(200)
             res.json({ success: false, message: "You are already logged in." })
         } else {
@@ -21,7 +21,15 @@ module.exports = {
 
 const checkToken = async (token) => {
     const decodedToken = jwt.decode(token)
-    const user = await User.findById(decodedToken.id)
-    console.log(user)
-    return user !== null
+    if (decodedToken) {
+        try {
+            const user = await User.findById(decodedToken.id)
+            return user !== null
+        }
+        catch (err) {
+            console.log(err)
+            return false
+        }
+    }
+    return false
 }
