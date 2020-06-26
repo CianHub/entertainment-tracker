@@ -36,7 +36,7 @@ module.exports = (passport) => {
     })
 
     passport.deserializeUser(async (id, done) => {
-        let user = await User.getUser(id);
+        let user = await User.findById(id);
         return done(null, user)
     })
 

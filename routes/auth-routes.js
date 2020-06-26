@@ -1,6 +1,7 @@
 const express = require('express');
 const passport = require('passport');
 const { ensureUserIsAuthenticated, ensureUserIsNotAuthenticated } = require('../middleware/auth-middleware')
+const jwt = require('jsonwebtoken')
 
 // Create router
 const router = express.Router();
@@ -11,14 +12,19 @@ router.get('/auth/google', ensureUserIsNotAuthenticated, passport.authenticate('
 // Google authentication callback
 router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/auth/google/login-failure' }),
     (req, res) => {
-        res.setStatus(200)
-        return res.json({ 'success': true, 'message': "Successfully logged in", "username": req.user.name })
+        res.status(200)
+        jwt.sign({ id: req.user._id }, process.env.JWT_SECRET, { expiresIn: 3600 }, (err, token) => {
+            if (err) {
+                throw err
+            }
+            return res.json({ 'success': true, 'message': "Successfully logged in", "username": req.user.name, token })
+        })
     })
 
 // Google user authentication failure
 router.get('/auth/google/login-failure', ensureUserIsNotAuthenticated,
     (req, res) => {
-        res.setStatus(401)
+        res.status(401)
         return res.json({ 'success': false, 'message': "Login failed" })
     })
 
@@ -28,13 +34,19 @@ router.get('/auth/facebook', ensureUserIsNotAuthenticated, passport.authenticate
 // Facebook authentication callback
 router.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/auth/facebook/login-failure' }),
     (req, res) => {
-        return res.json({ 'success': true, 'message': "Successfully logged in", "username": req.user.name })
+        res.status(200)
+        jwt.sign({ id: req.user._id }, process.env.JWT_SECRET, { expiresIn: 3600 }, (err, token) => {
+            if (err) {
+                throw err
+            }
+            return res.json({ 'success': true, 'message': "Successfully logged in", "username": req.user.name, token })
+        })
     })
 
 // Facebook user authentication failure
 router.get('/auth/facebook/login-failure', ensureUserIsNotAuthenticated,
     (req, res) => {
-        res.setStatus(401)
+        res.status(401)
         return res.json({ 'success': false, 'message': "Login failed" })
     })
 
@@ -42,14 +54,19 @@ router.get('/auth/facebook/login-failure', ensureUserIsNotAuthenticated,
 router.post('/auth/local', ensureUserIsNotAuthenticated,
     passport.authenticate('local', { failureRedirect: '/auth/local/login-failure' }),
     (req, res) => {
-        res.setStatus(200)
-        return res.json({ 'success': true, 'message': "Successfully logged in", "username": req.user.name })
+        res.status(200)
+        jwt.sign({ id: req.user._id }, process.env.JWT_SECRET, { expiresIn: 3600 }, (err, token) => {
+            if (err) {
+                throw err
+            }
+            return res.json({ 'success': true, 'message': "Successfully logged in", "username": req.user.name, token })
+        })
     })
 
 // Local user authentication failure
 router.get('/auth/local/login-failure', ensureUserIsNotAuthenticated,
     (req, res) => {
-        res.setStatus(401)
+        res.status(401)
         return res.json({ 'success': false, 'message': "Invalid username or password" })
     })
 

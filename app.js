@@ -32,7 +32,7 @@ app.use(cors());
 // Config app to parse incoming requests in diff formats
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cookieParser());
+app.use(cookieParser(process.env.SESSION_SECRET));
 
 // Config app to allow sessions
 app.use(session({
