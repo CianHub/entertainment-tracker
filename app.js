@@ -2,7 +2,6 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const expressGraphQL = require('express-graphql');
 const cors = require('cors');
 const path = require('path');
 const passport = require('passport');
@@ -17,9 +16,6 @@ require('./auth/google-strategy')(passport)
 require('./auth/local-strategy')(passport)
 require('./auth/facebook-strategy')(passport)
 
-// Import GraphQL schemas
-const schema = require('./graphql/schema')
-
 // Import routes
 const itemRoutes = require('./routes/item-routes')
 const userRoutes = require('./routes/user-routes')
@@ -29,16 +25,6 @@ const authRoutes = require('./routes/auth-routes')
 
 // Initialise the server
 const app = express();
-
-// Set GraphQL endpoint
-app.use(
-    '/graphql',
-    expressGraphQL({
-        schema,
-        graphiql: true,
-        pretty: true,
-    })
-);
 
 // Enable CORS
 app.use(cors());
