@@ -1,7 +1,7 @@
 const supertest = require('supertest')
 
 let routeGuardSpy, getEntrySpy, postEntrySpy, putEntrySpy, deleteEntrySpy, putUserSpy, request, app;
-const { mockEntry, mockUser, mockEntry2 } = require('../mocks')
+const { mockEntry, mockUser } = require('../mocks')
 
 describe('Test entries routes', () => {
     beforeEach(() => {
