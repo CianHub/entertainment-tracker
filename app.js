@@ -46,7 +46,7 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session())
 
-// Assign directory for static files
+// Assign directory for static files where front-end will live
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Assign routes
