@@ -56,4 +56,9 @@ app.use(entriesRoutes)
 app.use(userRoutes)
 app.use(authRoutes)
 
+// Tells express to route any requests outside of the api route to React
+app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'public/index.html'));
+});
+
 module.exports = app;
