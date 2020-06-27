@@ -59,7 +59,7 @@ router.post('/auth/local',
             if (err) {
                 throw err
             }
-            return res.json({ 'success': true, 'message': "Successfully logged in", "username": req.user.name, token })
+            return res.json({ 'success': true, 'message': "Successfully logged in", "userId": req.user._id, token })
         })
     })
 

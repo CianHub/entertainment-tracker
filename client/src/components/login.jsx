@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import store from '../store/store';
+import { addToken, addUserId } from '../actions/actions';
 
 export const Login = (props) => {
-  const [token, setToken] = useState(null);
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
 
@@ -17,8 +18,9 @@ export const Login = (props) => {
         name,
         password,
       });
-      if (res.data.token) {
-        setToken(res.data.token);
+      if (res.data) {
+        store.dispatch(addToken(res.data.token));
+        store.dispatch(addUserId(res.data.userId));
       }
     } catch (err) {}
   };
