@@ -19,7 +19,7 @@ router.delete('/api/entries/:id', routeGuard.ensureUserIsAuthenticated, (req, re
 router.put('/api/entries/:id', routeGuard.ensureUserIsAuthenticated, (req, res) => controller.putEntry(req, res))
 
 // Return data from the entries collection
-router.get('/api/entries', routeGuard.ensureUserIsAuthenticated, (req, res) => controller.getEntries(res));
+router.get('/api/entries', routeGuard.ensureUserIsAuthenticated, (req, res) => controller.getEntries(req, res));
 
 // Send new document to the entries collection
 router.post('/api/entries', routeGuard.ensureUserIsAuthenticated, (req, res) => controller.postEntry(req, res))

@@ -1,16 +1,16 @@
 const jwt = require('jsonwebtoken')
 const User = require('../models/user')
 module.exports = {
-    ensureUserIsAuthenticated: (req, res, next) => {
-        if (req.headers.token && checkToken(req.headers.token)) {
+    ensureUserIsAuthenticated: async (req, res, next) => {
+        if (await checkToken(req, req.headers.token)) {
             return next();
         } else {
             res.status(403)
             res.json({ success: false, message: "You must be logged in to access this path." })
         }
     },
-    ensureUserIsNotAuthenticated: (req, res, next) => {
-        if (req.headers.token && checkToken(req.headers.token)) {
+    ensureUserIsNotAuthenticated: async (req, res, next) => {
+        if (await checkToken(req, req.headers.token)) {
             res.status(200)
             res.json({ success: false, message: "You are already logged in." })
         } else {
@@ -19,16 +19,19 @@ module.exports = {
     },
 }
 
-const checkToken = async (token) => {
-    const decodedToken = jwt.decode(token)
-    if (decodedToken) {
-        try {
-            const user = await User.findById(decodedToken.id)
-            return user !== null
-        }
-        catch (err) {
-            console.log(err)
-            return false
+const checkToken = async (req, token) => {
+    if (token !== null) {
+        const decodedToken = jwt.decode(token)
+        if (decodedToken) {
+            try {
+                const user = await User.findById(decodedToken.id)
+                user ? req.user = user : null;
+                return user !== null
+            }
+            catch (err) {
+                console.log(err)
+                return false
+            }
         }
     }
     return false

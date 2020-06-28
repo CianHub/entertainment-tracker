@@ -3,9 +3,13 @@ const Entry = require('../models/entry');
 const User = require('../models/user');
 
 // GET all Entry Documents in the Collection
-module.exports.getEntries = async (res) => {
+// Only return the entries relevant to the logged in user
+module.exports.getEntries = async (req, res) => {
     try {
-        const entries = await Entry.find({})
+        let entries = await Entry.find({})
+        if (entries && req.user) {
+            entries.filter((entry) => entry.user.userId === req.user._id)
+        }
         res.status(200)
         res.json({ 'success': true, "entries": entries })
     } catch (err) {

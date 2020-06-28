@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import store from '../store/store';
 import { addToken, addUserId } from '../actions/actions';
+import { useHistory } from 'react-router-dom';
 
 export const Login = (props) => {
   const [name, setName] = useState('');
@@ -21,6 +22,8 @@ export const Login = (props) => {
       if (res.data) {
         store.dispatch(addToken(res.data.token));
         store.dispatch(addUserId(res.data.userId));
+        localStorage.setItem('token', res.data.token);
+        props.history.push('/entries');
       }
     } catch (err) {}
   };

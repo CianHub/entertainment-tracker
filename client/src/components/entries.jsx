@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import store from '../store/store';
+import { Redirect } from 'react-router-dom';
 
 export const Entries = (props) => {
   const [entryItems, setEntryItems] = useState([]);
-  const token = store.getState().token;
+  const token = localStorage.getItem('token');
+
+  const handleLoggedOutUser = () =>
+    localStorage.getItem('token') ? null : <Redirect to="/login" />;
 
   useEffect(() => {
     async function getEntries() {
@@ -22,10 +26,11 @@ export const Entries = (props) => {
       );
     }
     getEntries();
-  }, []);
+  }, [token]);
 
   return (
     <div className="login">
+      {handleLoggedOutUser()}
       <br></br>
       <h3>Entries</h3>
       {entryItems}
