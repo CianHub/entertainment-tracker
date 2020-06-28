@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux';
 
 import './App.css';
@@ -15,8 +15,10 @@ function App() {
       <Router>
         <div className="App container">
           {handleIndex()}
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/entries" component={Entries} />
+          <Switch>
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/entries" component={Entries} />
+          </Switch>
         </div>
       </Router>
     </Provider>

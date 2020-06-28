@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import store from '../store/store';
 import { addToken, addUserId } from '../actions/actions';
-import { useHistory } from 'react-router-dom';
 
 export const Login = (props) => {
   const [name, setName] = useState('');

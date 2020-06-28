@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import store from '../store/store';
 import { Redirect } from 'react-router-dom';
 
 export const Entries = (props) => {
