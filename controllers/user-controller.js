@@ -27,7 +27,8 @@ module.exports.getUsers = async (res) => {
 // GET single User Document from the Collection
 module.exports.getUser = async (req, res) => {
     try {
-        const user = await User.findById(req.params.id)
+        const id = req.user._id
+        const user = await User.findById(id)
         res.status(200)
         res.json({ 'success': true, "user": user })
     } catch (err) {

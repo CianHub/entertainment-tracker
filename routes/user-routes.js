@@ -10,7 +10,7 @@ const controller = require('../controllers/user-controller')
 const router = express.Router();
 
 // Return single document from users collections
-router.get('/api/users/:id', routeGuard.ensureUserIsAuthenticated, (req, res) => controller.getUser(req, res));
+router.get('/api/users/current', routeGuard.ensureUserIsAuthenticated, (req, res) => controller.getUser(req, res));
 
 // Deletes single document from users collections
 router.delete('/api/users/:id', routeGuard.ensureUserIsAuthenticated, (req, res) => controller.deleteUser(req, res));
