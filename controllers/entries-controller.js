@@ -6,10 +6,7 @@ const User = require('../models/user');
 // Only return the entries relevant to the logged in user
 module.exports.getEntries = async (req, res) => {
     try {
-        let entries = await Entry.find({})
-        if (entries && req.user) {
-            entries.filter((entry) => entry.user.userId === req.user._id)
-        }
+        let entries = await Entry.find({ "user": { "userId": `${req.user._id}` } })
         res.status(200)
         res.json({ 'success': true, "entries": entries })
     } catch (err) {
