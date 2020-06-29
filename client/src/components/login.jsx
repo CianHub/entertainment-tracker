@@ -1,30 +1,46 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import store from '../store/store';
-import { addToken, addUserId } from '../actions/actions';
+import { addToken, addLoginError } from '../actions/actions';
+import { classNames } from 'classnames';
+import { useSelector } from 'react-redux';
 
 export const Login = (props) => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
+  const [loginError, setLoginError] = useState(false);
+  const [loginErrorMessage, setLoginErrorMessage] = useState('');
 
   const handleSubmit = (event) => {
     handleLogin();
     event.preventDefault();
   };
 
+  useSelector((state) => {
+    if (loginError !== state.loginError) {
+      setLoginError(state.loginError);
+    }
+  });
+
   const handleLogin = async () => {
-    try {
-      const res = await axios.post(`http://localhost:5000/auth/local`, {
+    axios
+      .post(`http://localhost:5000/auth/local`, {
         name,
         password,
+      })
+      .then((res) => {
+        if (res.data) {
+          store.dispatch(addLoginError(false));
+          store.dispatch(addToken(res.data.token));
+          sessionStorage.setItem('token', res.data.token);
+          props.history.push('/entries');
+        }
+      })
+      .catch((error) => {
+        store.dispatch(addLoginError(true));
+        setLoginErrorMessage(error.response.data.message);
+        setPassword('');
       });
-      if (res.data) {
-        store.dispatch(addToken(res.data.token));
-        store.dispatch(addUserId(res.data.userId));
-        sessionStorage.setItem('token', res.data.token);
-        props.history.push('/entries');
-      }
-    } catch (err) {}
   };
 
   return (
@@ -56,9 +72,19 @@ export const Login = (props) => {
           />
         </div>
 
-        <button type="submit" className="btn btn-primary">
+        <button
+          type="submit"
+          className="btn btn-primary"
+          disabled={!name || !password}
+        >
           Submit
         </button>
+        {loginError ? (
+          <div className="text-danger">
+            <br />
+            {loginErrorMessage}
+          </div>
+        ) : null}
       </form>
     </div>
   );

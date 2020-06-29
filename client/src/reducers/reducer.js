@@ -1,8 +1,8 @@
-import { ADD_TOKEN, ADD_USER_ID } from "../actions/actions"
+import { ADD_TOKEN, ADD_LOGIN_ERROR } from "../actions/actions"
 
 const initialState = {
     token: null,
-    userId: null
+    loginError: false
 }
 
 const handleState = (state = initialState, action) => {
@@ -11,8 +11,8 @@ const handleState = (state = initialState, action) => {
     switch (action.type) {
         case ADD_TOKEN:
             return { ...state, token: action.token }
-        case ADD_USER_ID:
-            return { ...state, userId: action.userId }
+        case ADD_LOGIN_ERROR:
+            return { ...state, loginError: action.loginError }
         default:
             return state
     }

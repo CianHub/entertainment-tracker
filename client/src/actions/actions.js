@@ -1,14 +1,14 @@
 export const ADD_TOKEN = "ADD_TOKEN";
-export const ADD_USER_ID = "ADD_USER_ID";
+export const ADD_LOGIN_ERROR = "ADD_LOGIN_ERROR"
 
 export const addToken = (token) => {
     return {
-        type: ADD_TOKEN, token: token
+        type: ADD_TOKEN, token
     }
 }
 
-export const addUserId = (userId) => {
+export const addLoginError = (loginError) => {
     return {
-        type: ADD_USER_ID, userId: userId
+        type: ADD_LOGIN_ERROR, loginError
     }
 }
