@@ -21,7 +21,7 @@ export const Login = (props) => {
       if (res.data) {
         store.dispatch(addToken(res.data.token));
         store.dispatch(addUserId(res.data.userId));
-        localStorage.setItem('token', res.data.token);
+        sessionStorage.setItem('token', res.data.token);
         props.history.push('/entries');
       }
     } catch (err) {}

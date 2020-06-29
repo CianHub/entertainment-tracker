@@ -23,7 +23,9 @@
     "passport-facebook": "^3.0.0",
     "passport-google-oauth20": "^2.0.0",
     "passport-local": "^1.0.0",
+    "react-bootstrap": "^1.0.1",
     "react-redux": "^7.2.0",
+    "react-router-bootstrap": "^0.25.0",
     "supertest": "^4.0.2"
   },
   "devDependencies": {
