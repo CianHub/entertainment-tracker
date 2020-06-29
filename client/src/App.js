@@ -21,8 +21,9 @@ const App = () => {
     <Provider store={store}>
       <Router>
         <div className="App">
-          <NavbarComponent ></NavbarComponent>
+          <br></br>
           <div className="container">
+            <NavbarComponent ></NavbarComponent>
             {handleIndex()}
             <Switch>
               <Route exact path="/login" component={Login} />

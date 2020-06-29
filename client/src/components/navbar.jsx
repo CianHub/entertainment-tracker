@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Navbar, Nav } from 'react-bootstrap';
+import { Navbar, Nav, Image, Col } from 'react-bootstrap';
 import store from '../store/store';
 import { useSelector } from 'react-redux';
+import logo from '../scroll.png';
 
 export const NavbarComponent = (props) => {
   const [token, setToken] = useState(store.getState().token);
@@ -13,8 +14,15 @@ export const NavbarComponent = (props) => {
   });
 
   return (
-    <Navbar bg="primary" variant="dark" expand="lg">
-      <Navbar.Brand href="/">Entertainment Tracker</Navbar.Brand>
+    <Navbar bg="primary" variant="dark" expand="md">
+      <Navbar.Brand href="/">
+        <Image
+          style={{ width: '1.5em', marginRight: '0.5em' }}
+          src={logo}
+          rounded
+        />
+        Entertainment Tracker
+      </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
