@@ -1,6 +1,8 @@
-import React, { useE } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom'
 import { Provider, } from 'react-redux';
+import { library } from '@fortawesome/fontawesome-svg-core'
+import * as Icons from '@fortawesome/free-solid-svg-icons';
 
 import './App.css';
 import store from './store/store';
@@ -9,6 +11,13 @@ import { Login } from './components/login';
 import { NavbarComponent } from './components/navbar';
 import { Logout } from './components/logout';
 import { addToken } from './actions/actions';
+
+const iconList = Object
+  .keys(Icons)
+  .filter(key => key !== "fas" && key !== "prefix")
+  .map(icon => Icons[icon])
+
+library.add(...iconList)
 
 const App = () => {
   store.dispatch(addToken(sessionStorage.getItem('token')))
