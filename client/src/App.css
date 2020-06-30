@@ -14,7 +14,3 @@
   color: gray;
   cursor: pointer;
 }
-
-.rating-star.checked-star:hover {
-  color: orange;
-}

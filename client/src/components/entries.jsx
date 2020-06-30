@@ -205,7 +205,7 @@ export const Entries = (props) => {
           )[0].item.name
         );
         await setEntryItems(
-          <Table striped bordered hover reponsive="true">
+          <Table striped hover reponsive="true">
             <thead>
               <tr>
                 <th>#</th>
