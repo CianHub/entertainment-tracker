@@ -5,3 +5,16 @@
 .loader {
   margin-top: 10em;
 }
+
+.checked-star {
+  color: orange;
+}
+
+.rating-star:hover {
+  color: gray;
+  cursor: pointer;
+}
+
+.rating-star.checked-star:hover {
+  color: orange;
+}

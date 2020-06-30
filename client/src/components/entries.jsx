@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
-import { Table, Spinner } from 'react-bootstrap';
+import { Table, Spinner, Modal, Button, Form } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import classNames from 'classnames';
 
 export const Entries = (props) => {
   const [entryItems, setEntryItems] = useState([]);
@@ -9,6 +10,36 @@ export const Entries = (props) => {
   const [numberEntries, setNumberEntries] = useState(0);
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(false);
+  const [show, setShow] = useState(false);
+  const [starRating, setStarRating] = useState([
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
+  // click a star and it a function is called
+  // function takes in the number of that star e.g. 4
+  // Subtracts 1
+  // Iterates through the array with a forEach loop
+  // if index < clickedStar array[index] = true
+  // On each star set a classNames function that checks the value of its index
+  // Adds checked class depending on it
+
+  const rateEntry = (starIndex) => {
+    const newStarRating = [false, false, false, false, false];
+    newStarRating.forEach((star, index) => {
+      newStarRating[index] = index <= starIndex ? true : false;
+    });
+    return setStarRating(newStarRating);
+  };
+
+  const handleStarColor = (starIndex) => {
+    return starRating[starIndex] ? 'rating-star checked-star' : 'rating-star';
+  };
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   const token = sessionStorage.getItem('token');
 
   const handleLoggedOutUser = () =>
@@ -33,6 +64,76 @@ export const Entries = (props) => {
     }
   };
 
+  const newEntryModal = () => {
+    return (
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Log A New Entry!</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group controlId="itemName">
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter the name of your entry"
+              />
+            </Form.Group>
+
+            <Form.Group controlId="itemCategory">
+              <Form.Label>Item Category</Form.Label>
+              <Form.Control as="select">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+              </Form.Control>
+            </Form.Group>
+
+            <Form.Group controlId="rating">
+              <Form.Label>Rating</Form.Label>
+              <br />
+              <FontAwesomeIcon
+                onClick={() => rateEntry(0)}
+                className={handleStarColor(0)}
+                icon="star"
+              ></FontAwesomeIcon>
+              <FontAwesomeIcon
+                onClick={() => rateEntry(1)}
+                className={handleStarColor(1)}
+                icon="star"
+              ></FontAwesomeIcon>
+              <FontAwesomeIcon
+                onClick={() => rateEntry(2)}
+                className={handleStarColor(2)}
+                icon="star"
+              ></FontAwesomeIcon>
+              <FontAwesomeIcon
+                onClick={() => rateEntry(3)}
+                className={handleStarColor(3)}
+                icon="star"
+              ></FontAwesomeIcon>
+              <FontAwesomeIcon
+                onClick={() => rateEntry(4)}
+                className={handleStarColor(4)}
+                icon="star"
+              ></FontAwesomeIcon>
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Cancel
+          </Button>
+          <Button variant="primary" onClick={handleClose}>
+            Log Entry
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  };
+
   const loader = () => {
     return (
       <div className="d-flex justify-content-center">
@@ -49,18 +150,37 @@ export const Entries = (props) => {
     );
   };
 
+  const displayRating = (rating) => {
+    const star = (
+      <FontAwesomeIcon className="checked-star" icon="star"></FontAwesomeIcon>
+    );
+    const starRatingArray = [];
+    for (let i = 0; i < rating; i++) {
+      starRatingArray.push(star);
+    }
+    return starRatingArray;
+  };
+
   const content = () => {
     return (
       <React.Fragment>
         {handleLoggedOutUser()}
         <br></br>
+        {newEntryModal()}
         <h3>Summary</h3>
         <p>
           In <b>{new Date().getFullYear()}</b> so far, <b>{user.name}</b> has{' '}
           <b>{user.points}</b> points from <b>{numberEntries} </b>entries, the
           highest rated entry is <b>{highestRated}</b>.
         </p>
-        {entryItems}
+        <div>
+          <Button variant="primary" onClick={handleShow}>
+            Log New Entry
+          </Button>
+          <br />
+          <br />
+        </div>
+        <div>{entryItems}</div>
       </React.Fragment>
     );
   };
@@ -110,7 +230,7 @@ export const Entries = (props) => {
                         ></FontAwesomeIcon>{' '}
                         {entry.item.itemCategory.name}
                       </td>
-                      <td>{entry.rating}</td>
+                      <td>{displayRating(entry.rating)}</td>
                       <td>{entry.item.itemCategory.points}</td>
                       <td>{entry.year}</td>
                     </tr>
@@ -136,7 +256,6 @@ export const Entries = (props) => {
         });
         const userData = await userResponse.json();
         setUser(userData.user);
-        console.log(user);
       } catch (err) {
         console.log(err);
       }
