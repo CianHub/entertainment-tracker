@@ -183,7 +183,6 @@ export const Entries = (props) => {
 
   useEffect(() => {
     async function getEntries() {
-      setLoading(true);
       let entriesResponse;
       try {
         entriesResponse = await fetch(`http://localhost:5000/api/entries`, {
@@ -235,10 +234,8 @@ export const Entries = (props) => {
             </tbody>
           </Table>
         );
-        setLoading(false);
       } catch (err) {
         console.log(err);
-        setLoading(false);
         handleLoggedOutUser();
       }
     }
@@ -271,9 +268,14 @@ export const Entries = (props) => {
         console.log(err);
       }
     }
-    getItemCategories();
-    getUser();
-    getEntries();
+    const getData = async () => {
+      setLoading(true);
+      await getItemCategories();
+      await getUser();
+      await getEntries();
+      setLoading(false);
+    };
+    getData();
   }, [token]);
 
   return <div className="entries">{loading ? loader() : content()}</div>;
