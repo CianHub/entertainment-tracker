@@ -8,7 +8,7 @@ export const Entries = (props) => {
   const [highestRated, setHighestRated] = useState('');
   const [numberEntries, setNumberEntries] = useState(0);
   const [user, setUser] = useState({});
-  const [itemCategories, setItemCategories] = useState({});
+  const [itemCategories, setItemCategories] = useState([]);
   const [loading, setLoading] = useState(false);
   const [show, setShow] = useState(false);
   const [starRating, setStarRating] = useState([
@@ -69,18 +69,23 @@ export const Entries = (props) => {
               <Form.Label>Name</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Enter the name of your entry"
+                placeholder="Enter a name for your entry"
               />
             </Form.Group>
 
             <Form.Group controlId="itemCategory">
-              <Form.Label>Item Category</Form.Label>
+              <Form.Label>Category</Form.Label>
               <Form.Control as="select">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
+                <option value="" disabled selected>
+                  Select a category for your entry
+                </option>
+                {itemCategories.map((itemCategory) => {
+                  return (
+                    <option key={itemCategory._id} value={itemCategory}>
+                      {itemCategory.name}
+                    </option>
+                  );
+                })}
               </Form.Control>
             </Form.Group>
 
