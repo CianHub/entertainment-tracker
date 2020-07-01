@@ -30,7 +30,7 @@ module.exports.getUser = async (req, res) => {
         const id = req.user._id
         const user = await User.findById(id)
         res.status(200)
-        res.json({ 'success': true, "user": user })
+        res.json({ 'success': true, "user": { name: user.name, _id: user._id, points: user.points } })
     } catch (err) {
         res.status(400);
         res.json({ 'success': false, "message": 'Request failed' });
