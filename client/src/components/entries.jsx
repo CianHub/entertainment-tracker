@@ -28,6 +28,16 @@ export const Entries = (props) => {
     rating: 0,
   });
 
+  const handleFormValidation = () => {
+    const nameValid = formValue.item.name.trim().length > 0;
+    const ratingValid =
+      starRating.filter((rating) => rating === true).length > 0;
+    const categoryValid =
+      formValue.item.itemCategory.name.trim().length > 0 &&
+      formValue.item.itemCategory.points > 0;
+    return nameValid && categoryValid && ratingValid;
+  };
+
   const rateEntry = (starIndex) => {
     const newStarRating = [false, false, false, false, false];
     newStarRating.forEach((star, index) => {
@@ -67,17 +77,20 @@ export const Entries = (props) => {
       },
       rating: starRating.filter((star) => star === true).length,
     };
-    let postEntryResponse = await fetch(`http://localhost:5000/api/entries`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        token,
-      },
-      body: JSON.stringify(dataToSend),
-    });
-    const postEntryResponseData = await postEntryResponse.json();
-    console.log(postEntryResponseData);
+    try {
+      let postEntryResponse = await fetch(`http://localhost:5000/api/entries`, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          token,
+        },
+        body: JSON.stringify(dataToSend),
+      });
+    } catch (err) {
+      console.log(err);
+    }
+    setStarRating([false, false, false, false, false]);
     setFormValue({
       item: {
         name: '',
@@ -123,7 +136,7 @@ export const Entries = (props) => {
         <Modal.Body>
           <Form>
             <Form.Group controlId="itemName">
-              <Form.Label>Name</Form.Label>
+              <Form.Label>Name *</Form.Label>
               <Form.Control
                 name="name"
                 value={formValue.item.name}
@@ -134,7 +147,7 @@ export const Entries = (props) => {
             </Form.Group>
 
             <Form.Group controlId="itemCategory">
-              <Form.Label>Category</Form.Label>
+              <Form.Label>Category *</Form.Label>
               <Form.Control
                 name="itemCategory"
                 as="select"
@@ -161,7 +174,7 @@ export const Entries = (props) => {
             </Form.Group>
 
             <Form.Group controlId="rating">
-              <Form.Label>Rating</Form.Label>
+              <Form.Label>Rating *</Form.Label>
               <br />
               <FontAwesomeIcon
                 onClick={() => rateEntry(0)}
@@ -195,7 +208,11 @@ export const Entries = (props) => {
           <Button variant="secondary" onClick={handleClose}>
             Cancel
           </Button>
-          <Button variant="primary" onClick={handleSubmit}>
+          <Button
+            variant="primary"
+            onClick={handleSubmit}
+            disabled={!handleFormValidation()}
+          >
             Log Entry
           </Button>
         </Modal.Footer>
