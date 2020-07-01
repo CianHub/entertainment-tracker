@@ -32,6 +32,7 @@ module.exports.getEntry = async (req, res) => {
 // Update with PUT logged in users points 
 module.exports.postEntry = async (req, res) => {
     const data = { ...req.body, user: { "userId": req.user._id } }
+    console.log(data)
     try {
         const entry = await Entry.create(data)
         const updatedPoints = req.user.points + entry.item.itemCategory.points;

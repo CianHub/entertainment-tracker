@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Table, Spinner, Modal, Button, Form } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { json } from 'body-parser';
 
 export const Entries = (props) => {
   const [entryItems, setEntryItems] = useState([]);
@@ -18,6 +19,14 @@ export const Entries = (props) => {
     false,
     false,
   ]);
+  const [formValue, setFormValue] = useState({
+    item: {
+      name: '',
+      itemCategory: { name: '', points: 0 },
+    },
+    user: { userId: '' },
+    rating: 0,
+  });
 
   const rateEntry = (starIndex) => {
     const newStarRating = [false, false, false, false, false];
@@ -31,7 +40,55 @@ export const Entries = (props) => {
     return starRating[starIndex] ? 'rating-star checked-star' : 'rating-star';
   };
 
+  const handleFormChange = (e) => {
+    let { name, value } = e.target;
+    let newEntry = { ...formValue };
+    if (name === 'itemCategory') {
+      newEntry.item.itemCategory = itemCategories.find(
+        (category) => category._id === JSON.parse(value)._id
+      );
+    } else if (name === 'name') {
+      newEntry.item.name = value;
+    }
+    console.log(newEntry);
+    setFormValue({ ...formValue, ...newEntry });
+  };
   const handleClose = () => setShow(false);
+
+  const handleSubmit = async () => {
+    console.log(formValue);
+    const dataToSend = {
+      item: {
+        name: formValue.item.name,
+        itemCategory: {
+          name: formValue.item.itemCategory.name,
+          points: formValue.item.itemCategory.points,
+        },
+      },
+      rating: starRating.filter((star) => star === true).length,
+    };
+    let postEntryResponse = await fetch(`http://localhost:5000/api/entries`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        token,
+      },
+      body: JSON.stringify(dataToSend),
+    });
+    const postEntryResponseData = await postEntryResponse.json();
+    console.log(postEntryResponseData);
+    setFormValue({
+      item: {
+        name: '',
+        itemCategory: { name: '', points: 0 },
+      },
+      user: { userId: '' },
+      rating: 0,
+    });
+    handleClose();
+  };
+
   const handleShow = () => setShow(true);
   const token = sessionStorage.getItem('token');
 
@@ -68,20 +125,34 @@ export const Entries = (props) => {
             <Form.Group controlId="itemName">
               <Form.Label>Name</Form.Label>
               <Form.Control
+                name="name"
+                value={formValue.item.name}
                 type="text"
                 placeholder="Enter a name for your entry"
+                onChange={handleFormChange}
               />
             </Form.Group>
 
             <Form.Group controlId="itemCategory">
               <Form.Label>Category</Form.Label>
-              <Form.Control as="select">
-                <option value="" disabled selected>
-                  Select a category for your entry
+              <Form.Control
+                name="itemCategory"
+                as="select"
+                onChange={handleFormChange}
+                value={JSON.stringify(formValue.item.itemCategory)}
+              >
+                <option
+                  value={JSON.stringify({ name: '', points: 0 })}
+                  disabled
+                >
+                  Please select a category for your entry
                 </option>
                 {itemCategories.map((itemCategory) => {
                   return (
-                    <option key={itemCategory._id} value={itemCategory}>
+                    <option
+                      key={itemCategory._id}
+                      value={JSON.stringify(itemCategory)}
+                    >
                       {itemCategory.name}
                     </option>
                   );
@@ -124,7 +195,7 @@ export const Entries = (props) => {
           <Button variant="secondary" onClick={handleClose}>
             Cancel
           </Button>
-          <Button variant="primary" onClick={handleClose}>
+          <Button variant="primary" onClick={handleSubmit}>
             Log Entry
           </Button>
         </Modal.Footer>
