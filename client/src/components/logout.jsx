@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
-import { Redirect } from 'react-router-dom';
 import store from '../store/store';
 import { addToken } from '../actions/actions';
 

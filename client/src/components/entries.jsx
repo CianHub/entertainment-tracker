@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Table, Spinner, Modal, Button, Form } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import classNames from 'classnames';
 
 export const Entries = (props) => {
   const [entryItems, setEntryItems] = useState([]);
   const [highestRated, setHighestRated] = useState('');
   const [numberEntries, setNumberEntries] = useState(0);
   const [user, setUser] = useState({});
+  const [itemCategories, setItemCategories] = useState({});
   const [loading, setLoading] = useState(false);
   const [show, setShow] = useState(false);
   const [starRating, setStarRating] = useState([
@@ -18,13 +18,6 @@ export const Entries = (props) => {
     false,
     false,
   ]);
-  // click a star and it a function is called
-  // function takes in the number of that star e.g. 4
-  // Subtracts 1
-  // Iterates through the array with a forEach loop
-  // if index < clickedStar array[index] = true
-  // On each star set a classNames function that checks the value of its index
-  // Adds checked class depending on it
 
   const rateEntry = (starIndex) => {
     const newStarRating = [false, false, false, false, false];
@@ -151,12 +144,15 @@ export const Entries = (props) => {
   };
 
   const displayRating = (rating) => {
-    const star = (
-      <FontAwesomeIcon className="checked-star" icon="star"></FontAwesomeIcon>
-    );
     const starRatingArray = [];
     for (let i = 0; i < rating; i++) {
-      starRatingArray.push(star);
+      starRatingArray.push(
+        <FontAwesomeIcon
+          key={i}
+          className="checked-star"
+          icon="star"
+        ></FontAwesomeIcon>
+      );
     }
     return starRatingArray;
   };
@@ -194,7 +190,6 @@ export const Entries = (props) => {
           headers: { token },
         });
         let entriesData = await entriesResponse.json();
-        console.log(new Date().getFullYear());
         entriesData.entries = entriesData.entries.filter(
           (entry) => entry.year === new Date().getFullYear().toString()
         );
@@ -205,7 +200,7 @@ export const Entries = (props) => {
           )[0].item.name
         );
         await setEntryItems(
-          <Table striped hover reponsive="true">
+          <Table striped hover responsive="true">
             <thead>
               <tr>
                 <th>#</th>
@@ -260,6 +255,23 @@ export const Entries = (props) => {
         console.log(err);
       }
     }
+
+    async function getItemCategories() {
+      let itemCategoryResponse;
+      try {
+        itemCategoryResponse = await fetch(
+          `http://localhost:5000/api/item-categories`,
+          {
+            headers: { token },
+          }
+        );
+        itemCategoryResponse = await itemCategoryResponse.json();
+        setItemCategories(itemCategoryResponse.itemCategories);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    getItemCategories();
     getUser();
     getEntries();
   }, [token]);

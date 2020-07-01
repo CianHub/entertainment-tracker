@@ -6,8 +6,6 @@ const initialState = {
 }
 
 const handleState = (state = initialState, action) => {
-    console.log(action)
-
     switch (action.type) {
         case ADD_TOKEN:
             return { ...state, token: action.token }

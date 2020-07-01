@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Navbar, Nav, Image, Col } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Navbar, Nav, Image } from 'react-bootstrap';
 import store from '../store/store';
 import { useSelector } from 'react-redux';
 import logo from '../scroll.png';
