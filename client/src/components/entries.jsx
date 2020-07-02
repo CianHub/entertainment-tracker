@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Table, Spinner, Modal, Button, Form } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { json } from 'body-parser';
 
 export const Entries = (props) => {
   const [entryItems, setEntryItems] = useState([]);
@@ -63,7 +62,18 @@ export const Entries = (props) => {
     console.log(newEntry);
     setFormValue({ ...formValue, ...newEntry });
   };
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+    setStarRating([false, false, false, false, false]);
+    setFormValue({
+      item: {
+        name: '',
+        itemCategory: { name: '', points: 0 },
+      },
+      user: { userId: '' },
+      rating: 0,
+    });
+  };
 
   const handleSubmit = async () => {
     console.log(formValue);
@@ -90,15 +100,7 @@ export const Entries = (props) => {
     } catch (err) {
       console.log(err);
     }
-    setStarRating([false, false, false, false, false]);
-    setFormValue({
-      item: {
-        name: '',
-        itemCategory: { name: '', points: 0 },
-      },
-      user: { userId: '' },
-      rating: 0,
-    });
+
     handleClose();
   };
 
