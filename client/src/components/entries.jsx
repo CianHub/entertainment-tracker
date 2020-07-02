@@ -48,7 +48,7 @@ export const Entries = (props) => {
   };
 
   const showNewEntryFailureMessage = () => {
-    return newEntrySuccess ? (
+    return newEntryFailure ? (
       <span className="text-danger">
         <br></br>New entry attempt failed, please try again.
       </span>
@@ -80,6 +80,7 @@ export const Entries = (props) => {
     console.log(newEntry);
     setFormValue({ ...formValue, ...newEntry });
   };
+
   const handleClose = () => {
     setShow(false);
     setStarRating([false, false, false, false, false]);
@@ -128,6 +129,7 @@ export const Entries = (props) => {
   };
 
   const handleShow = () => setShow(true);
+
   const token = sessionStorage.getItem('token');
 
   const handleLoggedOutUser = () =>
@@ -281,6 +283,7 @@ export const Entries = (props) => {
       <React.Fragment>
         {handleLoggedOutUser()}
         {showNewEntrySuccessMessage()}
+        {showNewEntryFailureMessage()}
         <br></br>
         {newEntryModal()}
         <h3>Summary</h3>
@@ -299,6 +302,26 @@ export const Entries = (props) => {
         <div>{entryItems}</div>
       </React.Fragment>
     );
+  };
+
+  const deleteEntry = async (id) => {
+    if (window.confirm('Are you sure you want to delete this entry?')) {
+      try {
+        fetch(`http://localhost:5000/api/entries/${id}`, {
+          method: 'DELETE',
+          headers: { token },
+        });
+        setLoading(true);
+
+        setTimeout(async () => {
+          await getUserEntries();
+          setLoading(false);
+        }, 100);
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+    }
   };
 
   const getUserEntries = async () => {
@@ -327,6 +350,7 @@ export const Entries = (props) => {
               <th>Rating</th>
               <th>Points</th>
               <th>Year</th>
+              <th>Delete</th>
             </tr>
           </thead>
           <tbody>
@@ -346,6 +370,13 @@ export const Entries = (props) => {
                     <td>{displayRating(entry.rating)}</td>
                     <td>{entry.item.itemCategory.points}</td>
                     <td>{entry.year}</td>
+                    <td>
+                      <FontAwesomeIcon
+                        className="delete-icon"
+                        icon="trash"
+                        onClick={() => deleteEntry(entry._id)}
+                      ></FontAwesomeIcon>
+                    </td>
                   </tr>
                 );
               })
