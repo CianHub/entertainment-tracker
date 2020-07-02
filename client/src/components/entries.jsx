@@ -204,6 +204,7 @@ export const Entries = (props) => {
                 icon="star"
               ></FontAwesomeIcon>
             </Form.Group>
+            <Form.Text className="text-muted">* required.</Form.Text>
           </Form>
         </Modal.Body>
         <Modal.Footer>
@@ -211,7 +212,7 @@ export const Entries = (props) => {
             Cancel
           </Button>
           <Button
-            variant="primary"
+            variant="success"
             onClick={handleSubmit}
             disabled={!handleFormValidation()}
           >

@@ -14,3 +14,7 @@
   color: gray;
   cursor: pointer;
 }
+
+.btn-success:disabled:hover {
+  cursor: not-allowed;
+}

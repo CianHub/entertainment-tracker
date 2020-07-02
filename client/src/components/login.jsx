@@ -73,7 +73,7 @@ export const Login = (props) => {
 
         <button
           type="submit"
-          className="btn btn-primary"
+          className="btn btn-success"
           disabled={!name || !password}
         >
           Submit
