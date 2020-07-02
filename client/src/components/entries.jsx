@@ -11,6 +11,8 @@ export const Entries = (props) => {
   const [itemCategories, setItemCategories] = useState([]);
   const [loading, setLoading] = useState(false);
   const [show, setShow] = useState(false);
+  const [newEntrySuccess, setNewEntrySuccess] = useState(false);
+  const [newEntryFailure, setNewEntryFailure] = useState(false);
   const [starRating, setStarRating] = useState([
     false,
     false,
@@ -35,6 +37,22 @@ export const Entries = (props) => {
       formValue.item.itemCategory.name.trim().length > 0 &&
       formValue.item.itemCategory.points > 0;
     return nameValid && categoryValid && ratingValid;
+  };
+
+  const showNewEntrySuccessMessage = () => {
+    return newEntrySuccess ? (
+      <span className="text-success">
+        <br></br>New entry logged successfully.
+      </span>
+    ) : null;
+  };
+
+  const showNewEntryFailureMessage = () => {
+    return newEntrySuccess ? (
+      <span className="text-danger">
+        <br></br>New entry attempt failed, please try again.
+      </span>
+    ) : null;
   };
 
   const rateEntry = (starIndex) => {
@@ -88,7 +106,7 @@ export const Entries = (props) => {
       rating: starRating.filter((star) => star === true).length,
     };
     try {
-      let postEntryResponse = await fetch(`http://localhost:5000/api/entries`, {
+      await fetch(`http://localhost:5000/api/entries`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -97,11 +115,16 @@ export const Entries = (props) => {
         },
         body: JSON.stringify(dataToSend),
       });
+      setNewEntrySuccess(true);
+      setTimeout(() => setNewEntrySuccess(false), 10000);
     } catch (err) {
       console.log(err);
+      setNewEntryFailure(true);
+      setTimeout(() => setNewEntryFailure(false), 10000);
     }
 
     handleClose();
+    getUserEntries();
   };
 
   const handleShow = () => setShow(true);
@@ -204,7 +227,7 @@ export const Entries = (props) => {
                 icon="star"
               ></FontAwesomeIcon>
             </Form.Group>
-            <Form.Text className="text-muted">* required.</Form.Text>
+            <Form.Text className="text-muted">* required</Form.Text>
           </Form>
         </Modal.Body>
         <Modal.Footer>
@@ -257,6 +280,7 @@ export const Entries = (props) => {
     return (
       <React.Fragment>
         {handleLoggedOutUser()}
+        {showNewEntrySuccessMessage()}
         <br></br>
         {newEntryModal()}
         <h3>Summary</h3>
@@ -277,63 +301,67 @@ export const Entries = (props) => {
     );
   };
 
+  const getUserEntries = async () => {
+    let entriesResponse;
+    try {
+      entriesResponse = await fetch(`http://localhost:5000/api/entries`, {
+        headers: { token },
+      });
+      let entriesData = await entriesResponse.json();
+      entriesData.entries = entriesData.entries.filter(
+        (entry) => entry.year === new Date().getFullYear().toString()
+      );
+      setNumberEntries(entriesData.entries.length);
+      setHighestRated(
+        [...entriesData.entries].sort(
+          (a, b) => parseFloat(b.rating) - parseFloat(a.rating)
+        )[0].item.name
+      );
+      await setEntryItems(
+        <Table striped hover responsive="true">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Category</th>
+              <th>Rating</th>
+              <th>Points</th>
+              <th>Year</th>
+            </tr>
+          </thead>
+          <tbody>
+            {entriesData.entries
+              .sort((a, b) => a.date - b.date)
+              .map((entry, index) => {
+                return (
+                  <tr key={entry._id}>
+                    <td>{index + 1}</td>
+                    <td>{entry.item.name}</td>
+                    <td>
+                      <FontAwesomeIcon
+                        icon={handleIcon(entry.item.itemCategory.name)}
+                      ></FontAwesomeIcon>{' '}
+                      {entry.item.itemCategory.name}
+                    </td>
+                    <td>{displayRating(entry.rating)}</td>
+                    <td>{entry.item.itemCategory.points}</td>
+                    <td>{entry.year}</td>
+                  </tr>
+                );
+              })
+              .reverse()}
+          </tbody>
+        </Table>
+      );
+    } catch (err) {
+      console.log(err);
+      handleLoggedOutUser();
+    }
+  };
+
   useEffect(() => {
     async function getEntries() {
-      let entriesResponse;
-      try {
-        entriesResponse = await fetch(`http://localhost:5000/api/entries`, {
-          headers: { token },
-        });
-        let entriesData = await entriesResponse.json();
-        entriesData.entries = entriesData.entries.filter(
-          (entry) => entry.year === new Date().getFullYear().toString()
-        );
-        setNumberEntries(entriesData.entries.length);
-        setHighestRated(
-          [...entriesData.entries].sort(
-            (a, b) => parseFloat(b.rating) - parseFloat(a.rating)
-          )[0].item.name
-        );
-        await setEntryItems(
-          <Table striped hover responsive="true">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Name</th>
-                <th>Category</th>
-                <th>Rating</th>
-                <th>Points</th>
-                <th>Year</th>
-              </tr>
-            </thead>
-            <tbody>
-              {entriesData.entries
-                .sort((a, b) => a.date - b.date)
-                .map((entry, index) => {
-                  return (
-                    <tr key={entry._id}>
-                      <td>{index + 1}</td>
-                      <td>{entry.item.name}</td>
-                      <td>
-                        <FontAwesomeIcon
-                          icon={handleIcon(entry.item.itemCategory.name)}
-                        ></FontAwesomeIcon>{' '}
-                        {entry.item.itemCategory.name}
-                      </td>
-                      <td>{displayRating(entry.rating)}</td>
-                      <td>{entry.item.itemCategory.points}</td>
-                      <td>{entry.year}</td>
-                    </tr>
-                  );
-                })
-                .reverse()}
-            </tbody>
-          </Table>
-        );
-      } catch (err) {
-        console.log(err);
-        handleLoggedOutUser();
-      }
+      getUserEntries();
     }
 
     async function getUser() {
