@@ -55,7 +55,7 @@ export const Register = (props) => {
 
   const handleLogin = async () => {
     try {
-      const loginResponse = await fetch(`http://localhost:5000/auth/local`, {
+      const loginResponse = await fetch(`/auth/local`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
