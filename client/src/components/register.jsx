@@ -3,7 +3,7 @@ import axios from 'axios';
 import store from '../store/store';
 import { addToken } from '../actions/actions';
 import { Form, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 export const Register = (props) => {
   const [form, setForm] = useState({
@@ -100,7 +100,9 @@ export const Register = (props) => {
       });
   };
 
-  return (
+  return token ? (
+    <Redirect to="/entries"></Redirect>
+  ) : (
     <div className="register">
       <br></br>
       <h3>Register</h3>

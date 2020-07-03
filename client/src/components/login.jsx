@@ -47,7 +47,6 @@ export const Login = (props) => {
     } catch (error) {
       console.log(error);
       store.dispatch(addLoginError(true));
-      setLoginErrorMessage(error.response.data.message);
       setPassword('');
     }
   };
