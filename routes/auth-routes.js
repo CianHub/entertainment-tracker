@@ -33,7 +33,7 @@ router.get('/auth/facebook', routeGuard.ensureUserIsNotAuthenticated, passport.a
 
 // Facebook authentication callback
 router.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/auth/facebook/login-failure' }),
-    (req, res) => {
+    async (req, res) => {
         res.status(200)
         jwt.sign({ id: req.user._id }, process.env.JWT_SECRET, { expiresIn: 3600 }, (err, token) => {
             if (err) {
@@ -45,7 +45,7 @@ router.get('/auth/facebook/callback', passport.authenticate('facebook', { failur
 
 // Facebook user authentication failure
 router.get('/auth/facebook/login-failure', routeGuard.ensureUserIsNotAuthenticated,
-    (req, res) => {
+    async (req, res) => {
         res.status(401)
         return res.json({ 'success': false, 'message': "Login failed" })
     })
@@ -53,7 +53,7 @@ router.get('/auth/facebook/login-failure', routeGuard.ensureUserIsNotAuthenticat
 // Authenticate a local user
 router.post('/auth/local',
     passport.authenticate('local', { failureRedirect: '/auth/local/login-failure' }),
-    (req, res) => {
+    async (req, res) => {
         res.status(200)
         jwt.sign({ id: req.user._id }, process.env.JWT_SECRET, { expiresIn: 3600 }, (err, token) => {
             if (err) {

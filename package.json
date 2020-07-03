@@ -4,6 +4,7 @@
   "description": "",
   "main": "app.js",
   "dependencies": {
+    "@babel/runtime": "^7.10.4",
     "@fortawesome/fontawesome-svg-core": "^1.2.29",
     "@fortawesome/free-solid-svg-icons": "^5.13.1",
     "@fortawesome/react-fontawesome": "^0.1.11",
@@ -32,6 +33,7 @@
     "supertest": "^4.0.2"
   },
   "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.10.4",
     "@shelf/jest-mongodb": "^1.1.5",
     "eslint-config-google": "^0.14.0",
     "jest": "^24.9.0",

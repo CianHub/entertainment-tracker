@@ -3,13 +3,16 @@ import axios from 'axios';
 import store from '../store/store';
 import { addToken, addLoginError } from '../actions/actions';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 export const Login = (props) => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState(false);
   const [loginErrorMessage, setLoginErrorMessage] = useState('');
+  const [token, setToken] = useState(null);
+
+  //On successful login setToken and add condiitonal JSX to render redirect if token is defined
 
   const handleSubmit = (event) => {
     handleLogin();
@@ -23,27 +26,35 @@ export const Login = (props) => {
   });
 
   const handleLogin = async () => {
-    axios
-      .post(`/auth/local`, {
-        name,
-        password,
-      })
-      .then((res) => {
-        if (res.data) {
-          store.dispatch(addLoginError(false));
-          store.dispatch(addToken(res.data.token));
-          sessionStorage.setItem('token', res.data.token);
-          props.history.push('/entries');
-        }
-      })
-      .catch((error) => {
-        store.dispatch(addLoginError(true));
-        setLoginErrorMessage(error.response.data.message);
-        setPassword('');
+    try {
+      const loginResponse = await fetch(`http://localhost:5000/auth/local`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: name,
+          password: password,
+        }),
       });
+      const res = await loginResponse.json();
+      if (res) {
+        store.dispatch(addLoginError(false));
+        store.dispatch(addToken(res.token));
+        sessionStorage.setItem('token', res.token);
+        setToken(res.token);
+      }
+    } catch (error) {
+      console.log(error);
+      store.dispatch(addLoginError(true));
+      setLoginErrorMessage(error.response.data.message);
+      setPassword('');
+    }
   };
 
-  return (
+  return token ? (
+    <Redirect to="/entries"></Redirect>
+  ) : (
     <div className="login">
       <br></br>
       <h3>Login</h3>
