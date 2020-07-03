@@ -43,7 +43,7 @@ module.exports.postUser = async (req, res) => {
     // Generates a salt
     // Creates a salted hash of the password
     // Sets accountType to local and stores the salt for validation
-    const data = req.body;
+    const data = req.body.body;
     if ('password' in data) {
         const salt = csprng(160, 36);
         data.salt = salt;
@@ -53,7 +53,7 @@ module.exports.postUser = async (req, res) => {
     try {
         const user = await User.create(data)
         res.status(200)
-        res.json({ 'success': true, "user": user })
+        res.json({ 'success': true, "user": { name: user.name, _id: user._id, points: user.points } })
 
     } catch (err) {
         res.status(400);

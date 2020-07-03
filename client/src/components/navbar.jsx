@@ -34,6 +34,7 @@ export const NavbarComponent = (props) => {
           ) : (
             <React.Fragment>
               <Nav.Link href="/">Login</Nav.Link>
+              <Nav.Link href="/register">Register</Nav.Link>
             </React.Fragment>
           )}
         </Nav>

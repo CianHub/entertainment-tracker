@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Redirect, Switch, useLocation } from 'react-router-dom'
 import { Provider, } from 'react-redux';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import * as Icons from '@fortawesome/free-solid-svg-icons';
@@ -11,6 +11,7 @@ import { Login } from './components/login';
 import { NavbarComponent } from './components/navbar';
 import { Logout } from './components/logout';
 import { addToken } from './actions/actions';
+import { Register } from './components/register';
 
 const iconList = Object
   .keys(Icons)
@@ -20,11 +21,13 @@ const iconList = Object
 library.add(...iconList)
 
 const App = () => {
-  store.dispatch(addToken(sessionStorage.getItem('token')))
+  const token = sessionStorage.getItem('token') !== "undefined" && sessionStorage.getItem('token') ? sessionStorage.getItem('token') : null
+  store.dispatch(addToken(token))
 
-  const handleIndex = () => store.getState().token
-    ? <Redirect to="/entries" />
-    : <Redirect to="/login" />
+  const handleIndex = () => {
+    return token ? <Redirect to="/entries" />
+      : null
+  }
 
   return (
     <Provider store={store}>
@@ -36,6 +39,7 @@ const App = () => {
             {handleIndex()}
             <Switch>
               <Route exact path="/login" component={Login} />
+              <Route exact path="/register" component={Register} />
               <Route exact path="/logout" component={Logout} />
               <Route exact path="/entries" component={Entries} />
             </Switch>

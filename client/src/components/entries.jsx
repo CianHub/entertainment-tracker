@@ -30,12 +30,12 @@ export const Entries = (props) => {
   });
 
   const handleFormValidation = () => {
-    const nameValid = formValue.item.name.trim().length > 0;
+    const nameValid = formValue?.item?.name?.trim()?.length > 0;
     const ratingValid =
       starRating.filter((rating) => rating === true).length > 0;
     const categoryValid =
-      formValue.item.itemCategory.name.trim().length > 0 &&
-      formValue.item.itemCategory.points > 0;
+      formValue?.item?.itemCategory?.name?.trim()?.length > 0 &&
+      formValue?.item?.itemCategory?.points > 0;
     return nameValid && categoryValid && ratingValid;
   };
 
@@ -132,8 +132,10 @@ export const Entries = (props) => {
 
   const token = sessionStorage.getItem('token');
 
-  const handleLoggedOutUser = () =>
-    sessionStorage.getItem('token') ? null : <Redirect to="/login" />;
+  const handleLoggedOutUser = () => {
+    const token = sessionStorage.getItem('token');
+    return token && token !== 'undefined' ? null : <Redirect to="/login" />;
+  };
 
   const handleIcon = (categoryName) => {
     switch (categoryName) {
@@ -187,16 +189,18 @@ export const Entries = (props) => {
                 >
                   Please select a category for your entry
                 </option>
-                {itemCategories.map((itemCategory) => {
-                  return (
-                    <option
-                      key={itemCategory._id}
-                      value={JSON.stringify(itemCategory)}
-                    >
-                      {itemCategory.name}
-                    </option>
-                  );
-                })}
+                {itemCategories
+                  ? itemCategories.map((itemCategory) => {
+                      return (
+                        <option
+                          key={itemCategory._id}
+                          value={JSON.stringify(itemCategory)}
+                        >
+                          {itemCategory.name}
+                        </option>
+                      );
+                    })
+                  : handleLoggedOutUser()}
               </Form.Control>
             </Form.Group>
 
@@ -281,15 +285,14 @@ export const Entries = (props) => {
   const content = () => {
     return (
       <React.Fragment>
-        {handleLoggedOutUser()}
         {showNewEntrySuccessMessage()}
         {showNewEntryFailureMessage()}
         <br></br>
         {newEntryModal()}
         <h3>Summary</h3>
         <p>
-          In <b>{new Date().getFullYear()}</b> so far, <b>{user.name}</b> has{' '}
-          <b>{user.points}</b> points from <b>{numberEntries} </b>entries, the
+          In <b>{new Date().getFullYear()}</b> so far, <b>{user?.name}</b> has{' '}
+          <b>{user?.points}</b> points from <b>{numberEntries} </b>entries, the
           highest rated entry is <b>{highestRated}</b>.
         </p>
         <div>
@@ -331,58 +334,62 @@ export const Entries = (props) => {
         headers: { token },
       });
       let entriesData = await entriesResponse.json();
-      entriesData.entries = entriesData.entries.filter(
-        (entry) => entry.year === new Date().getFullYear().toString()
+      entriesData.entries = entriesData?.entries?.filter(
+        (entry) => entry?.year === new Date().getFullYear().toString()
       );
-      setNumberEntries(entriesData.entries.length);
+      setNumberEntries(entriesData?.entries?.length);
       setHighestRated(
-        [...entriesData.entries].sort(
-          (a, b) => parseFloat(b.rating) - parseFloat(a.rating)
-        )[0].item.name
+        [...entriesData.entries]?.sort(
+          (a, b) => parseFloat(b?.rating) - parseFloat(a?.rating)
+        )[0]?.item?.name
       );
       await setEntryItems(
-        <Table striped hover responsive="true">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Name</th>
-              <th>Category</th>
-              <th>Rating</th>
-              <th>Points</th>
-              <th>Year</th>
-              <th>Delete</th>
-            </tr>
-          </thead>
-          <tbody>
-            {entriesData.entries
-              .sort((a, b) => a.date - b.date)
-              .map((entry, index) => {
-                return (
-                  <tr key={entry._id}>
-                    <td>{index + 1}</td>
-                    <td>{entry.item.name}</td>
-                    <td>
-                      <FontAwesomeIcon
-                        icon={handleIcon(entry.item.itemCategory.name)}
-                      ></FontAwesomeIcon>{' '}
-                      {entry.item.itemCategory.name}
-                    </td>
-                    <td>{displayRating(entry.rating)}</td>
-                    <td>{entry.item.itemCategory.points}</td>
-                    <td>{entry.year}</td>
-                    <td>
-                      <FontAwesomeIcon
-                        className="delete-icon"
-                        icon="trash"
-                        onClick={() => deleteEntry(entry._id)}
-                      ></FontAwesomeIcon>
-                    </td>
-                  </tr>
-                );
-              })
-              .reverse()}
-          </tbody>
-        </Table>
+        entriesData?.entries && entriesData?.entries.length ? (
+          <Table striped hover responsive="true">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Rating</th>
+                <th>Points</th>
+                <th>Year</th>
+                <th>Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              {entriesData?.entries
+                .sort((a, b) => a.date - b.date)
+                .map((entry, index) => {
+                  return (
+                    <tr key={entry._id}>
+                      <td>{index + 1}</td>
+                      <td>{entry.item.name}</td>
+                      <td>
+                        <FontAwesomeIcon
+                          icon={handleIcon(entry.item.itemCategory.name)}
+                        ></FontAwesomeIcon>{' '}
+                        {entry.item.itemCategory.name}
+                      </td>
+                      <td>{displayRating(entry.rating)}</td>
+                      <td>{entry.item.itemCategory.points}</td>
+                      <td>{entry.year}</td>
+                      <td>
+                        <FontAwesomeIcon
+                          className="delete-icon"
+                          icon="trash"
+                          onClick={() => deleteEntry(entry._id)}
+                        ></FontAwesomeIcon>
+                      </td>
+                    </tr>
+                  );
+                })
+                .reverse()}
+            </tbody>
+          </Table>
+        ) : (
+          <p>No entries logged yet!</p>
+        )
       );
     } catch (err) {
       console.log(err);
@@ -433,5 +440,10 @@ export const Entries = (props) => {
     getData();
   }, [token]);
 
-  return <div className="entries">{loading ? loader() : content()}</div>;
+  return (
+    <div className="entries">
+      {handleLoggedOutUser()}
+      {loading ? loader() : content()}
+    </div>
+  );
 };
