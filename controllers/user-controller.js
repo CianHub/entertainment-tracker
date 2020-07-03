@@ -44,7 +44,6 @@ module.exports.postUser = async (req, res) => {
     // Creates a salted hash of the password
     // Sets accountType to local and stores the salt for validation
     const data = req.body.body;
-    console.log(req.body.body)
     if ('password' in data) {
         const salt = csprng(160, 36);
         data.salt = salt;

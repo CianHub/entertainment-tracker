@@ -77,7 +77,6 @@ export const Entries = (props) => {
     } else if (name === 'name') {
       newEntry.item.name = value;
     }
-    console.log(newEntry);
     setFormValue({ ...formValue, ...newEntry });
   };
 
@@ -95,7 +94,6 @@ export const Entries = (props) => {
   };
 
   const handleSubmit = async () => {
-    console.log(formValue);
     const dataToSend = {
       item: {
         name: formValue.item.name,
