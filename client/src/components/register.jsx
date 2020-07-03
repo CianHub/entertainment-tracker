@@ -13,6 +13,7 @@ export const Register = (props) => {
   });
 
   const [registerFailure, setRegisterFailure] = useState('');
+  const [token, setToken] = useState(null);
 
   const handleSubmit = (event) => {
     handleRegister();
@@ -53,30 +54,27 @@ export const Register = (props) => {
   };
 
   const handleLogin = async () => {
-    return axios
-      .post(`/auth/local`, {
-        name: form.name,
-        password: form.password,
-      })
-      .then((res) => {
-        if (res.data) {
-          store.dispatch(addToken(res.data.token));
-          sessionStorage.setItem('token', res.data.token);
-          setForm({
-            name: '',
-            password: '',
-            retypePassword: '',
-          });
-          props.history.push('/entries');
-        }
-      })
-      .catch((error) => {
-        setForm({
-          ...form,
-          password: '',
-          retypePassword: '',
-        });
+    try {
+      const loginResponse = await fetch(`http://localhost:5000/auth/local`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: form.name,
+          password: form.password,
+        }),
       });
+      const res = await loginResponse.json();
+      if (res) {
+        store.dispatch(addToken(res.token));
+        sessionStorage.setItem('token', res.token);
+        setToken(res.token);
+      }
+    } catch (error) {
+      console.log(error);
+      setForm({ ...form, password: '', retypePassword: '' });
+    }
   };
 
   const handleRegister = async () => {
