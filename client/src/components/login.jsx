@@ -24,7 +24,7 @@ export const Login = (props) => {
 
   const handleLogin = async () => {
     axios
-      .post(`http://localhost:5000/auth/local`, {
+      .post(`/auth/local`, {
         name,
         password,
       })

@@ -54,7 +54,7 @@ export const Register = (props) => {
 
   const handleLogin = async () => {
     return axios
-      .post(`http://localhost:5000/auth/local`, {
+      .post(`/auth/local`, {
         name: form.name,
         password: form.password,
       })
@@ -81,7 +81,7 @@ export const Register = (props) => {
 
   const handleRegister = async () => {
     axios
-      .post(`http://localhost:5000/api/users`, {
+      .post(`/api/users`, {
         body: {
           name: form.name,
           password: form.password,

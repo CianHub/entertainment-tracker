@@ -105,7 +105,7 @@ export const Entries = (props) => {
       rating: starRating.filter((star) => star === true).length,
     };
     try {
-      await fetch(`http://localhost:5000/api/entries`, {
+      await fetch(`/api/entries`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -308,7 +308,7 @@ export const Entries = (props) => {
   const deleteEntry = async (id) => {
     if (window.confirm('Are you sure you want to delete this entry?')) {
       try {
-        fetch(`http://localhost:5000/api/entries/${id}`, {
+        fetch(`/api/entries/${id}`, {
           method: 'DELETE',
           headers: { token },
         });
@@ -328,7 +328,7 @@ export const Entries = (props) => {
   const getUserEntries = async () => {
     let entriesResponse;
     try {
-      entriesResponse = await fetch(`http://localhost:5000/api/entries`, {
+      entriesResponse = await fetch(`/api/entries`, {
         headers: { token },
       });
       let entriesData = await entriesResponse.json();
@@ -403,7 +403,7 @@ export const Entries = (props) => {
     async function getUser() {
       let userResponse;
       try {
-        userResponse = await fetch(`http://localhost:5000/api/users/current`, {
+        userResponse = await fetch(`/api/users/current`, {
           headers: { token },
         });
         const userData = await userResponse.json();
@@ -416,12 +416,9 @@ export const Entries = (props) => {
     async function getItemCategories() {
       let itemCategoryResponse;
       try {
-        itemCategoryResponse = await fetch(
-          `http://localhost:5000/api/item-categories`,
-          {
-            headers: { token },
-          }
-        );
+        itemCategoryResponse = await fetch(`/api/item-categories`, {
+          headers: { token },
+        });
         itemCategoryResponse = await itemCategoryResponse.json();
         setItemCategories(itemCategoryResponse.itemCategories);
       } catch (err) {

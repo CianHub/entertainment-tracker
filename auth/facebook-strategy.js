@@ -6,7 +6,7 @@ module.exports = (passport) => {
     passport.use('facebook', new FacebookStrategy({
         clientID: process.env.FACEBOOK_APP_ID,
         clientSecret: process.env.FACEBOOK_SECRET,
-        callbackURL: "http://localhost:5000/auth/facebook/callback"
+        callbackURL: "/auth/facebook/callback"
     },
         async (accessToken, refreshToken, profile, done) => {
             const newUser = {

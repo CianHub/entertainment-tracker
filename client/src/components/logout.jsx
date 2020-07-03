@@ -6,7 +6,7 @@ import { addToken } from '../actions/actions';
 export const Logout = (props) => {
   const handleLogout = async () => {
     try {
-      await axios.get(`http://localhost:5000/auth/logout`, {
+      await axios.get(`/auth/logout`, {
         headers: { token: store.getState().token },
       });
       sessionStorage.removeItem('token');
