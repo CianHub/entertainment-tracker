@@ -3,6 +3,7 @@ import axios from 'axios';
 import store from '../store/store';
 import { addToken, addLoginError } from '../actions/actions';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 export const Login = (props) => {
   const [name, setName] = useState('');
@@ -85,6 +86,12 @@ export const Login = (props) => {
           </div>
         ) : null}
       </form>
+      <p>
+        <br></br>
+        <Link className="text-muted" to="/register">
+          Don't have an account yet?
+        </Link>
+      </p>
     </div>
   );
 };

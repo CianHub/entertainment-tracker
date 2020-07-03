@@ -28,12 +28,12 @@ export const NavbarComponent = (props) => {
         <Nav className="mr-auto">
           {token ? (
             <React.Fragment>
-              <Nav.Link href="/">Entries</Nav.Link>
+              <Nav.Link href="/entries">Entries</Nav.Link>
               <Nav.Link href="/logout">Logout</Nav.Link>
             </React.Fragment>
           ) : (
             <React.Fragment>
-              <Nav.Link href="/">Login</Nav.Link>
+              <Nav.Link href="/login">Login</Nav.Link>
               <Nav.Link href="/register">Register</Nav.Link>
             </React.Fragment>
           )}

@@ -4,6 +4,7 @@ import store from '../store/store';
 import { addToken, addLoginError } from '../actions/actions';
 import { useSelector } from 'react-redux';
 import { Form, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 export const Register = (props) => {
   const [form, setForm] = useState({
@@ -148,6 +149,12 @@ export const Register = (props) => {
         <Form.Text className="text-muted">* required</Form.Text>
         {showRegisterFailureMessage()}
       </Form>
+      <p>
+        <br></br>
+        <Link className="text-muted" to="/login">
+          Already have an account?
+        </Link>
+      </p>
     </div>
   );
 };

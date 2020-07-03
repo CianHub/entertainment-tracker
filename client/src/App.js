@@ -24,10 +24,11 @@ const App = () => {
   const token = sessionStorage.getItem('token') !== "undefined" && sessionStorage.getItem('token') ? sessionStorage.getItem('token') : null
   store.dispatch(addToken(token))
 
-  const handleIndex = () => {
+  const redirectIndex = () => {
     return token ? <Redirect to="/entries" />
       : null
   }
+  const handleIndex = () => token ? <Entries> </Entries> : <Login></Login>
 
   return (
     <Provider store={store}>
@@ -36,8 +37,10 @@ const App = () => {
           <br></br>
           <div className="container">
             <NavbarComponent ></NavbarComponent>
-            {handleIndex()}
+            {redirectIndex()}
             <Switch>
+              <Route exact path="/" component={handleIndex} />
+
               <Route exact path="/login" component={Login} />
               <Route exact path="/register" component={Register} />
               <Route exact path="/logout" component={Logout} />
