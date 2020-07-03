@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import store from '../store/store';
-import { addToken, addLoginError } from '../actions/actions';
-import { useSelector } from 'react-redux';
+import { addToken } from '../actions/actions';
 import { Form, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
