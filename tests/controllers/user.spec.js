@@ -51,7 +51,7 @@ describe("Test users controller", () => {
 
         expect(res.json).toHaveBeenCalledTimes(1)
         expect(res.json.mock.calls.length).toBe(1);
-        expect(res.json).toHaveBeenCalledWith({ 'success': true, 'user': mockUser });
+        expect(res.json).toHaveBeenCalledWith({ 'success': true, user: { "name": "testName", "points": 0, } });
     });
 
     test('getUser should return 400 and return correct value', async () => {
@@ -77,13 +77,12 @@ describe("Test users controller", () => {
         const req = mockRequest();
         const res = mockResponse();
 
-        req.body = jest.fn().mockReturnValue({ password: "test" })
-
+        req.body = { body: { "password": "test" } }
         await controller.postUser(req, res);
 
         expect(res.json).toHaveBeenCalledTimes(1)
         expect(res.json.mock.calls.length).toBe(1);
-        expect(res.json).toHaveBeenCalledWith({ 'success': true, user: mockUser });
+        expect(res.json).toHaveBeenCalledWith({ 'success': true, user: { "name": "testName", "points": 0, } });
     });
 
     test('postUser should return 400 and return correct value', async () => {
@@ -93,6 +92,8 @@ describe("Test users controller", () => {
 
         const req = mockRequest();
         const res = mockResponse();
+        req.body = { body: { "password": "test" } }
+
 
         await controller.postUser(req, res);
 

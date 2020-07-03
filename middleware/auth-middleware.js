@@ -1,23 +1,24 @@
 const jwt = require('jsonwebtoken')
 const User = require('../models/user')
-module.exports = {
-    ensureUserIsAuthenticated: async (req, res, next) => {
-        if (await checkToken(req, req.headers.token)) {
-            return next();
-        } else {
-            res.status(403)
-            res.json({ success: false, message: "You must be logged in to access this path." })
-        }
-    },
-    ensureUserIsNotAuthenticated: async (req, res, next) => {
-        if (await checkToken(req, req.headers.token)) {
-            res.status(200)
-            res.json({ success: false, message: "You are already logged in." })
-        } else {
-            next();
-        }
-    },
+
+const ensureUserIsAuthenticated = async (req, res, next) => {
+    if (await checkToken(req, req.headers.token)) {
+        return next();
+    } else {
+        res.status(403)
+        res.json({ success: false, message: "You must be logged in to access this path." })
+    }
 }
+
+const ensureUserIsNotAuthenticated = async (req, res, next) => {
+    if (await checkToken(req, req.headers.token)) {
+        res.status(200)
+        res.json({ success: false, message: "You are already logged in." })
+    } else {
+        next();
+    }
+}
+
 
 const checkToken = async (req, token) => {
     if (token !== null) {
@@ -36,3 +37,7 @@ const checkToken = async (req, token) => {
     }
     return false
 }
+
+module.exports.checkToken = checkToken
+module.exports.ensureUserIsAuthenticated = ensureUserIsAuthenticated
+module.exports.ensureUserIsNotAuthenticated = ensureUserIsNotAuthenticated

@@ -66,7 +66,7 @@ module.exports.mockUser = {
     profilePicture: null,
     salt: "123",
     accountType: "Local",
-    dateCreated: Date.now()
+    dateCreated: Date.now(),
 }
 
 module.exports.mockUser2 = {

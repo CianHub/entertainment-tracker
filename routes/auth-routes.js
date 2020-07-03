@@ -1,13 +1,13 @@
 const express = require('express');
 const passport = require('passport');
-const { ensureUserIsAuthenticated, ensureUserIsNotAuthenticated } = require('../middleware/auth-middleware')
+const routeGuard = require('../middleware/auth-middleware')
 const jwt = require('jsonwebtoken')
 
 // Create router
 const router = express.Router();
 
 // Authenticate user with Google
-router.get('/auth/google', ensureUserIsNotAuthenticated, passport.authenticate('google', { scope: ['profile'] }))
+router.get('/auth/google', routeGuard.ensureUserIsNotAuthenticated, passport.authenticate('google', { scope: ['profile'] }))
 
 // Google authentication callback
 router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/auth/google/login-failure' }),
@@ -22,14 +22,14 @@ router.get('/auth/google/callback', passport.authenticate('google', { failureRed
     })
 
 // Google user authentication failure
-router.get('/auth/google/login-failure', ensureUserIsNotAuthenticated,
+router.get('/auth/google/login-failure', routeGuard.ensureUserIsNotAuthenticated,
     (req, res) => {
         res.status(401)
         return res.json({ 'success': false, 'message': "Login failed" })
     })
 
 // Authenticate user with Facebook
-router.get('/auth/facebook', ensureUserIsNotAuthenticated, passport.authenticate('facebook'))
+router.get('/auth/facebook', routeGuard.ensureUserIsNotAuthenticated, passport.authenticate('facebook'))
 
 // Facebook authentication callback
 router.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/auth/facebook/login-failure' }),
@@ -44,7 +44,7 @@ router.get('/auth/facebook/callback', passport.authenticate('facebook', { failur
     })
 
 // Facebook user authentication failure
-router.get('/auth/facebook/login-failure', ensureUserIsNotAuthenticated,
+router.get('/auth/facebook/login-failure', routeGuard.ensureUserIsNotAuthenticated,
     (req, res) => {
         res.status(401)
         return res.json({ 'success': false, 'message': "Login failed" })
@@ -64,14 +64,14 @@ router.post('/auth/local',
     })
 
 // Local user authentication failure
-router.get('/auth/local/login-failure', ensureUserIsNotAuthenticated,
+router.get('/auth/local/login-failure', routeGuard.ensureUserIsNotAuthenticated,
     (req, res) => {
         res.status(401)
         return res.json({ 'success': false, 'message': "Invalid username or password" })
     })
 
 // Logout User
-router.get('/auth/logout', ensureUserIsAuthenticated, (req, res) => {
+router.get('/auth/logout', routeGuard.ensureUserIsAuthenticated, (req, res) => {
     req.logout()
     return res.json({ 'success': true, 'message': "Successfully logged out" })
 })

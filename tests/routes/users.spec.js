@@ -42,34 +42,6 @@ describe('Test user routes', () => {
         done()
     })
 
-    it('should call getUser and return 200 if authenticated', async done => {
-        routeGuardSpy.mockImplementation((req, res, next) => next());
-        getUserSpy.mockImplementation(() => { return { 'success': true, "user": mockUser } })
-
-        const response = await request.get('/api/users/5eebb5b0834526f4e3e35b52')
-
-        expect(response.status).toBe(200)
-        expect(routeGuardSpy).toHaveBeenCalled();
-        done()
-    })
-
-    it('should call getUser and return 403 if not authenticated', async done => {
-        const response = await request.get('/api/users/1')
-
-        expect(response.status).toBe(403)
-        expect(routeGuardSpy).toHaveBeenCalled();
-        done()
-    })
-
-    it('should call postUser and return 200 if authenticated', async done => {
-        postUserSpy.mockImplementation(() => { return { 'success': true, "user": mockUser } })
-
-        const response = await request.post('/api/users')
-
-        expect(response.status).toBe(200)
-        done()
-    })
-
 
     it('should call putUser and return 403 if not authenticated', async done => {
         const response = await request.put('/api/users/5eebb5b0834526f4e3e35b52')

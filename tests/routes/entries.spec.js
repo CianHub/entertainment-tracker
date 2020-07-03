@@ -26,16 +26,6 @@ describe('Test entries routes', () => {
         jest.restoreAllMocks()
     })
 
-    it('should call getEntries and return 200 if authenticated', async done => {
-        routeGuardSpy.mockImplementation((req, res, next) => next())
-
-        const response = await request.get('/api/entries')
-
-        expect(response.status).toBe(200)
-        expect(routeGuardSpy).toHaveBeenCalled();
-        done()
-    })
-
     it('should call getEntries and return 403 if not authenticated', async done => {
         const response = await request.get('/api/entries')
 

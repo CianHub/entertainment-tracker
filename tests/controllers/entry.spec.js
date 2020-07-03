@@ -17,15 +17,17 @@ describe("Test entries controller", () => {
     });
 
     test('getEntries should return 200 and return correct value', async () => {
-        Entry.find = jest.fn().mockReturnValue([])
+        Entry.find = jest.fn().mockReturnValue([mockEntry])
+        const req = mockRequest();
+        req.user._id = 'test'
 
         const res = mockResponse();
 
-        await controller.getEntries(res);
+        await controller.getEntries(req, res);
 
         expect(res.json).toHaveBeenCalledTimes(1)
         expect(res.json.mock.calls.length).toBe(1);
-        expect(res.json).toHaveBeenCalledWith({ 'success': true, "entries": [] });
+        expect(res.json).toHaveBeenCalledWith({ 'success': true, "entries": [mockEntry] });
     });
 
     test('getEntries should return 400 and return correct value', async () => {
@@ -33,9 +35,12 @@ describe("Test entries controller", () => {
             throw new Error('error');
         })
 
+        const req = mockRequest();
+        req.user._id = 'test'
+
         const res = mockResponse();
 
-        await controller.getEntries(res)
+        await controller.getEntries(req, res);
 
         expect(res.json).toHaveBeenCalledTimes(1)
         expect(res.json.mock.calls.length).toBe(1);
